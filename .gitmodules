@@ -1,3 +1,9 @@
 [submodule "qemu"]
 	path = qemu
 	url = https://github.com/alix-gao/qemu.git
+[submodule "arm-trusted-firmware"]
+	path = arm-trusted-firmware
+	url = https://github.com/alix-gao/arm-trusted-firmware.git
+[submodule "edk2"]
+	path = edk2
+	url = https://github.com/alix-gao/edk2.git
