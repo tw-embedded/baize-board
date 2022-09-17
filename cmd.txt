@@ -1,0 +1,17 @@
+target remote:1234
+set architecture aarch64
+set disassemble-next-line on
+add-symbol-file ./arm-trusted-firmware/build/fake/release/bl1/bl1.elf
+add-symbol-file ./arm-trusted-firmware/build/fake/release/bl2/bl2.elf
+add-symbol-file ./arm-trusted-firmware/build/fake/release/bl31/bl31.elf
+b bl1_entrypoint
+b bl2_entrypoint
+b bl31_entrypoint
+
+b bl31_main
+#b el3_exit
+
+# uefi entry
+b *0x50000000
+
+c
