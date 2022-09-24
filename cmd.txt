@@ -1,6 +1,8 @@
 target remote:1234
 set architecture aarch64
 set disassemble-next-line on
+
+# atf
 add-symbol-file ./arm-trusted-firmware/build/fake/debug/bl1/bl1.elf
 add-symbol-file ./arm-trusted-firmware/build/fake/debug/bl2/bl2.elf
 add-symbol-file ./arm-trusted-firmware/build/fake/debug/bl31/bl31.elf
@@ -13,6 +15,14 @@ b bl31_main
 
 # uefi entry
 b *0x50000000
+
+# clear bp
+d breakpoints
+
+# uefi
 add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmVirtPrePiUniCoreRelocatable.debug 0x50009240
+b _ModuleEntryPoint
+
+b CEntryPoint
 
 c
