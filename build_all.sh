@@ -1,4 +1,7 @@
+
 SOC_DEBUG=1
+
+set -e
 
 if [ $SOC_DEBUG -eq 1 ]
 then
