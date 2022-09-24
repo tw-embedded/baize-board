@@ -30,7 +30,7 @@ build -a AARCH64 -t GCC5 -b DEBUG -p FakePkg/Fake.dsc
 cd -
 
 #UEFIF=../edk2/Build/ArmVirtQemuKernel-AARCH64/DEBUG_GCC5/FV/QEMU_EFI.fd
-UEFIF=../edk2/Build/Fake-AARCH64/DEBUG_GCC5/FV/QEMU_EFI.fd
+UEFIF=../edk2/Build/Fake-AARCH64/DEBUG_GCC5/FV/FAKE_EFI.fd
 
 # build atf
 cd arm-trusted-firmware/
