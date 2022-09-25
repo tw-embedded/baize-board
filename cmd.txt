@@ -22,7 +22,9 @@ d breakpoints
 # uefi
 add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmVirtPrePiUniCoreRelocatable.debug 0x50009240
 b _ModuleEntryPoint
-
 b CEntryPoint
+d breakpoints
+b PrePiMain
+b DecompressFirstFv
 
 c
