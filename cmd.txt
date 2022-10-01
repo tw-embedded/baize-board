@@ -23,8 +23,22 @@ d breakpoints
 add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmVirtPrePiUniCoreRelocatable.debug 0x50009240
 b _ModuleEntryPoint
 b CEntryPoint
-d breakpoints
 b PrePiMain
 b DecompressFirstFv
+b LoadDxeCoreFromFfsFile
+
+# uefi.dxe
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/DxeCore.debug 0x6f27b000
+b _ModuleEntryPoint
+b DxeMain
+b CoreInitializeMemoryServices
+b InitMmu
+b ArmVirtGetMemoryMap
+
+d breakpoints
+
+# uefi.pl011
+b FdtPL011SerialPortLibInitialize
+b PL011UartInitializePort
 
 c
