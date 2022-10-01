@@ -28,7 +28,7 @@ b DecompressFirstFv
 b LoadDxeCoreFromFfsFile
 
 # uefi.dxe
-add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/DxeCore.debug 0x6f27b000
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/DxeCore.debug 0x6f27a000+0x1000 -s .data 0x6f27a000+0x29000
 b _ModuleEntryPoint
 b DxeMain
 b CoreInitializeMemoryServices
@@ -40,5 +40,10 @@ d breakpoints
 # uefi.pl011
 b FdtPL011SerialPortLibInitialize
 b PL011UartInitializePort
+
+d breakpoints
+
+# uefi.dxe.service
+b CoreAllEfiServicesAvailable
 
 c
