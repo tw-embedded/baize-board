@@ -43,7 +43,7 @@ b PL011UartInitializePort
 
 d breakpoints
 
-# uefi.dxe.service
+# uefi.dxe.protocol
 b CoreAllEfiServicesAvailable
 
 c
