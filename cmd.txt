@@ -46,5 +46,8 @@ d breakpoints
 # uefi.dxe.protocol
 b CoreAllEfiServicesAvailable
 b ProcessLibraryConstructorList
+b InterruptDxeInitialize
+add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe/DEBUG/ResetSystemRuntimeDxe.dll 0x68AB0000
+b ArmPsciResetSystemLibConstructor
 
 c
