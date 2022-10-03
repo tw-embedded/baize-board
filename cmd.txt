@@ -45,5 +45,6 @@ d breakpoints
 
 # uefi.dxe.protocol
 b CoreAllEfiServicesAvailable
+b ProcessLibraryConstructorList
 
 c
