@@ -49,5 +49,8 @@ b ProcessLibraryConstructorList
 b InterruptDxeInitialize
 add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe/DEBUG/ResetSystemRuntimeDxe.dll 0x68AB0000
 b ArmPsciResetSystemLibConstructor
+d breakpoints
+add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/ArmGic/ArmGicDxe/DEBUG/ArmGicDxe.dll 0x6BDA0000
+b ArmVirtGicArchLibConstructor
 
 c
