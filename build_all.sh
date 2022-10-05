@@ -44,3 +44,9 @@ cd -
 dd if=arm-trusted-firmware/build/fake/$EDK2_PATH/bl1.bin of=boot.rom bs=4096 conv=notrunc
 dd if=arm-trusted-firmware/build/fake/$EDK2_PATH/fip.bin of=boot.rom seek=64 bs=4096 conv=notrunc
 
+if [ ! -f pflash.raw ]
+then
+	echo "create pflash file"
+	dd if=/dev/zero of=./pflash.raw bs=1M count=16
+fi
+
