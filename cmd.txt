@@ -46,7 +46,6 @@ d breakpoints
 # uefi.dxe.protocol
 b CoreAllEfiServicesAvailable
 b ProcessLibraryConstructorList
-b InterruptDxeInitialize
 
 add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe/DEBUG/ResetSystemRuntimeDxe.dll 0x68AB0000
 b ArmPsciResetSystemLibConstructor
@@ -56,5 +55,18 @@ add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmPkg
 b ArmVirtTimerFdtClientLibConstructor
 
 d breakpoints
+
+# uefi.dxe.driver & lib
+b _ModuleEntryPoint
+b ProcessLibraryConstructorList
+b ProcessModuleEntryPointList
+
+add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmPlatformPkg/Drivers/NorFlashDxe/NorFlashDxe/DEBUG/ArmVeNorFlashDxe.dll 0x68A60000
+# depends on uefi.dxe.driver & lib
+b NorFlashCreateInstance  
+b NorFlashPlatformGetDevices
+d breakpoints
+
+b ValidateFvHeader
 
 c

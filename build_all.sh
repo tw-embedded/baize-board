@@ -41,6 +41,6 @@ make O=build ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu- PLAT=fake BL33=$UEFIF
 cd -
 
 # generate image
-dd if=arm-trusted-firmware/build/fake/$EDK2_PATH/bl1.bin of=norflash.bin bs=4096 conv=notrunc
-dd if=arm-trusted-firmware/build/fake/$EDK2_PATH/fip.bin of=norflash.bin seek=64 bs=4096 conv=notrunc
+dd if=arm-trusted-firmware/build/fake/$EDK2_PATH/bl1.bin of=boot.rom bs=4096 conv=notrunc
+dd if=arm-trusted-firmware/build/fake/$EDK2_PATH/fip.bin of=boot.rom seek=64 bs=4096 conv=notrunc
 
