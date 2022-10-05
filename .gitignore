@@ -1,1 +1,3 @@
 boot.rom
+pflash.raw
+rootfs.ext4
