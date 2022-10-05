@@ -69,4 +69,8 @@ d breakpoints
 
 b ValidateFvHeader
 
+# uefi.bds
+add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/FakePkg/drivers/VirtioFdtDxe/VirtioFdtDxe/DEBUG/VirtioFdtDxe.dll 0x6BDB1000
+b InitializeVirtioFdtDxe
+
 c
