@@ -50,3 +50,5 @@ then
 	dd if=/dev/zero of=./pflash.raw bs=1M count=16
 fi
 
+dtc -I dts -O dtb -o baize.dtb baize.dts
+
