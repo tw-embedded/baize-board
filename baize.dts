@@ -62,6 +62,16 @@
 		compatible = "virtio,mmio";
 	};
 
+/* rtc will be probed by edk2 service, efi rtc
+	pl031@20003000 {
+		clock-names = "apb_pclk";
+		clocks = <0x8000>;
+		interrupts = <0x0 0x1a 0x4>;
+		reg = <0x0 20003000 0x0 0x1000>;
+		compatible = "arm,pl031", "arm,primecell";
+	};
+*/
+
 /*
 	psci {
 		migrate = <0xc4000005>;
@@ -97,14 +107,6 @@
 		#address-cells = <0x3>;
 		device_type = "pci";
 		compatible = "pci-host-ecam-generic";
-	};
-
-	pl031@9010000 {
-		clock-names = "apb_pclk";
-		clocks = <0x8000>;
-		interrupts = <0x0 0x2 0x4>;
-		reg = <0x0 0x9010000 0x0 0x1000>;
-		compatible = "arm,pl031", "arm,primecell";
 	};
 */
 
