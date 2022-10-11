@@ -77,7 +77,10 @@ d breakpoints
 b BdsEntry
 b QemuLoadKernelImage
 b EfiBootManagerBoot
-b EfiBootManagerGetLoadOptions
-b EfiBootManagerAddLoadOptionVariable
+
+# kernel
+d breakpoints
+add-symbol-file vmlinux
+b start_kernel
 
 c
