@@ -13,6 +13,8 @@ sudo mount $loopdev"p1" p1
 sudo mount $loopdev"p2" p2
 
 sudo cp baize.dtb p1
+sudo cp startup.nsh p1
+
 #umount p1 p2
 #losetup -d $loopdev
 

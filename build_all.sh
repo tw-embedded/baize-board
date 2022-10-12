@@ -56,6 +56,7 @@ function build_norflash() {
 }
 
 function build_dtb() {
+	rm -rf baize.dtb
 	dtc -I dts -O dtb -o baize.dtb baize.dts
 }
 

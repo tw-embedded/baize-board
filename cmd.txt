@@ -82,5 +82,6 @@ b EfiBootManagerBoot
 d breakpoints
 add-symbol-file vmlinux
 b start_kernel
+directory ../linux-4.14.219/build
 
 c
