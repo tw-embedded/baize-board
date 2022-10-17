@@ -11,7 +11,7 @@ function build_board() {
 		cd -
 	fi
 	cd qemu/build
-	make
+	make -j 7
 	cd -
 }
 
