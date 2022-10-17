@@ -8,6 +8,7 @@ function build_board() {
 		mkdir qemu/build
 		cd qemu/build
 		../configure --target-list=aarch64-softmmu
+		cd -
 	fi
 	cd qemu/build
 	make
