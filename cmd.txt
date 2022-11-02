@@ -38,7 +38,7 @@ b ArmVirtGetMemoryMap
 d breakpoints
 
 # uefi.pl011
-b FdtPL011SerialPortLibInitialize
+b pl011_lib_initialize
 b PL011UartInitializePort
 
 d breakpoints
@@ -47,12 +47,12 @@ d breakpoints
 b CoreAllEfiServicesAvailable
 b ProcessLibraryConstructorList
 
-add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe/DEBUG/ResetSystemRuntimeDxe.dll 0x68AB0000
-b ArmPsciResetSystemLibConstructor
-add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/ArmGic/ArmGicDxe/DEBUG/ArmGicDxe.dll 0x6BDA0000
-b ArmVirtGicArchLibConstructor
-add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/TimerDxe/TimerDxe/DEBUG/ArmTimerDxe.dll 0x6BD26000
-b ArmVirtTimerFdtClientLibConstructor
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe/DEBUG/ResetSystemRuntimeDxe.dll 0x68AB0000
+b psci_lib_constructor
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/ArmGic/ArmGicDxe/DEBUG/ArmGicDxe.dll 0x6BDA0000
+b gic_arch_lib_constructor
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmPkg/Drivers/TimerDxe/TimerDxe/DEBUG/ArmTimerDxe.dll 0x6BD26000
+b timer_lib_constructor
 
 d breakpoints
 
@@ -61,18 +61,19 @@ b _ModuleEntryPoint
 b ProcessLibraryConstructorList
 b ProcessModuleEntryPointList
 
-add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmPlatformPkg/Drivers/NorFlashDxe/NorFlashDxe/DEBUG/ArmVeNorFlashDxe.dll 0x68A60000
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ArmPlatformPkg/Drivers/NorFlashDxe/NorFlashDxe/DEBUG/ArmVeNorFlashDxe.dll 0x68A60000
 # depends on uefi.dxe.driver & lib
-b NorFlashCreateInstance  
+b NorFlashCreateInstance
 b NorFlashPlatformGetDevices
 d breakpoints
 
 b ValidateFvHeader
 
 # uefi.bds
-add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/FakePkg/drivers/VirtioFdtDxe/VirtioFdtDxe/DEBUG/VirtioFdtDxe.dll 0x6BDB1000
-b InitializeVirtioFdtDxe
-add-symbol-file /home/alix/soc/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/BdsDxe/BdsDxe/DEBUG/BdsDxe.dll 0x6BCCD000
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/FakePkg/drivers/fake_driver/fake_driver/DEBUG/FakeDriver.dll 0x6BDB8000
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/FakePkg/drivers/virtio_dxe/virtio_dxe/DEBUG/virtio_dxe.dll 0x6BDB1000
+b initialize_virtio_dxe
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/BdsDxe/BdsDxe/DEBUG/BdsDxe.dll 0x6BCCD000
 d breakpoints
 b BdsEntry
 b QemuLoadKernelImage
@@ -83,5 +84,8 @@ d breakpoints
 add-symbol-file vmlinux
 b start_kernel
 directory ../linux-4.14.219/build
+
+# kernel.reboot
+b psci_print_power_domain_map
 
 c
