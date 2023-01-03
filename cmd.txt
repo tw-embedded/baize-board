@@ -86,6 +86,11 @@ b start_kernel
 directory ../linux-4.14.219/build
 
 # kernel.reboot
+#add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe/DEBUG/ResetSystemRuntimeDxe.dll 0x68AB0000
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe/DEBUG/ResetSystemRuntimeDxe.dll 0x21280000
+b ResetCold
+# atf part
 b psci_print_power_domain_map
-
+b qemu_system_reset
 c
+
