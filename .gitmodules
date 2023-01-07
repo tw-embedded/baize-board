@@ -1,9 +1,9 @@
 [submodule "qemu"]
 	path = qemu
-	url = https://github.com/tw-system/qemu.git
+	url = https://github.com/tw-embedded/qemu.git
 [submodule "arm-trusted-firmware"]
 	path = arm-trusted-firmware
-	url = https://github.com/tw-system/arm-trusted-firmware.git
+	url = https://github.com/tw-embedded/arm-trusted-firmware.git
 [submodule "edk2"]
 	path = edk2
-	url = https://github.com/tw-system/edk2.git
+	url = https://github.com/tw-embedded/edk2.git
