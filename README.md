@@ -1,6 +1,6 @@
 # baize-board
 
-git submodule update --init --recursive
+git submodule update --init
 
 ./build_all.sh
 
