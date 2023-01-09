@@ -7,3 +7,6 @@
 [submodule "edk2"]
 	path = edk2
 	url = https://github.com/tw-embedded/edk2.git
+[submodule "xen"]
+	path = xen
+	url = https://github.com/tw-embedded/xen.git
