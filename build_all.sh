@@ -63,7 +63,7 @@ function build_dtb() {
 
 function build_xen() {
 	cd xen
-	if [ ! -d xen/.config ]; then
+	if [ ! -f xen/.config ]; then
 		cd xen
 		make XEN_TARGET_ARCH=arm64 distclean
 		make XEN_TARGET_ARCH=arm64 fake_defconfig
