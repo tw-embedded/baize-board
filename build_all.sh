@@ -61,6 +61,19 @@ function build_dtb() {
 	dtc -I dts -O dtb -o baize.dtb baize.dts
 }
 
+function build_xen() {
+	cd xen
+	if [ ! -d xen/.config ]; then
+		cd xen
+		make XEN_TARGET_ARCH=arm64 distclean
+		make XEN_TARGET_ARCH=arm64 fake_defconfig
+		cd -
+		./configure XEN_TARGET_ARCH=arm64
+	fi
+	make xen XEN_TARGET_ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- debug=y -j4
+	cd -
+}
+
 function main() {
 	echo "start building..."
 	build_board
@@ -69,6 +82,7 @@ function main() {
 	build_bootrom
 	build_norflash
 	build_dtb
+	build_xen
 }
 
 main "$@"
