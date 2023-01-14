@@ -85,13 +85,16 @@ add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Univer
 b ResetCold
 # atf part
 b psci_print_power_domain_map
-b qemu_system_reset
+b fake_system_reset
 
 # kernel
 d breakpoints
 add-symbol-file vmlinux
 b start_kernel
 directory ../linux-4.14.219/build
+
+add-symbol-file ./xen/xen/xen-syms 0x0000000068608000
+b efi_start
 
 c
 

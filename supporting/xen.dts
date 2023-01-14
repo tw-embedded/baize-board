@@ -1,0 +1,17 @@
+/dts-v1/;
+
+/ {
+	chosen {
+		stdout-path = "/pl011@9000000";
+		xen,xen-bootargs = "console=ttyAMA0 noreboot loglvl=all";
+
+		#address-cells = <1>;
+		#size-cells = <1>;
+		module@0 {
+			compatible = "xen,linux-zimage","xen,multiboot-module";
+			reg = <0x44000000 0xfe0000>;
+			bootargs = "root=/dev/vda2 rw rootfstype=ext4 rootwait earlycon console=tty0 console=ttyAMA0 init=/linuxrc ignore_loglevel";
+		};
+	};
+};
+

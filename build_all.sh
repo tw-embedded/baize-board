@@ -1,7 +1,10 @@
+#!/bin/bash
 
 set -e
 
 SOC_DEBUG=1
+
+MISC_PATH=./supporting
 
 function build_board() {
 	if [ ! -d qemu/build ]; then
@@ -57,8 +60,10 @@ function build_norflash() {
 }
 
 function build_dtb() {
-	rm -rf baize.dtb
-	dtc -I dts -O dtb -o baize.dtb baize.dts
+	rm -rf $MISC_PATH/baize.dtb
+	dtc -I dts -O dtb -o $MISC_PATH/baize.dtb $MISC_PATH/baize.dts
+	rm -rf $MISC_PATH/xen.dtb
+	dtc -I dts -O dtb -o $MISC_PATH/xen.dtb $MISC_PATH/xen.dts
 }
 
 function build_xen() {
@@ -70,7 +75,29 @@ function build_xen() {
 		cd -
 		./configure XEN_TARGET_ARCH=arm64
 	fi
-	make xen XEN_TARGET_ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- debug=y -j4
+	make dist-xen XEN_TARGET_ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- debug=y -j4
+	cd -
+}
+
+function update_rootfs() {
+	loopdev=$(losetup -f)
+	echo $loopdev
+	cd $MISC_PATH
+	sudo losetup $loopdev ../disk.rootfs
+	sudo partprobe $loopdev
+	ls /dev/loop*
+	if [ ! -d p1 ]; then
+		mkdir p1
+	fi
+	sudo mount $loopdev"p1" p1
+	sudo cp *.dtb p1
+	sudo cp startup.nsh p1
+	sudo cp ../xen/dist/install/boot/xen p1
+	sudo cp xen.cfg p1
+	#sudo cp startup-xen.nsh p1/startup.nsh
+	ls p1
+	sudo umount p1
+	sudo losetup -d $loopdev
 	cd -
 }
 
@@ -83,6 +110,7 @@ function main() {
 	build_norflash
 	build_dtb
 	build_xen
+	update_rootfs
 }
 
 main "$@"
