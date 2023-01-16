@@ -67,14 +67,15 @@ function build_dtb() {
 }
 
 function build_xen() {
-	cd xen
-	if [ ! -f xen/.config ]; then
-		cd xen
+	if [ ! -f xen-4.17/xen/.config ]; then
+		cd xen-4.17/xen
 		make XEN_TARGET_ARCH=arm64 distclean
 		make XEN_TARGET_ARCH=arm64 fake_defconfig
-		cd -
+		cd ..
 		./configure XEN_TARGET_ARCH=arm64
+		cd ..
 	fi
+	cd xen-4.17
 	make dist-xen XEN_TARGET_ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- debug=y -j4
 	cd -
 }
@@ -92,7 +93,7 @@ function update_rootfs() {
 	sudo mount $loopdev"p1" p1
 	sudo cp *.dtb p1
 	sudo cp startup.nsh p1
-	sudo cp ../xen/dist/install/boot/xen p1
+	sudo cp ../xen-4.17/dist/install/boot/xen p1
 	sudo cp xen.cfg p1
 	sudo cp startup-xen.nsh p1/startup.nsh
 	ls p1
