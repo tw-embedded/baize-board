@@ -94,7 +94,7 @@ function update_rootfs() {
 	sudo cp startup.nsh p1
 	sudo cp ../xen/dist/install/boot/xen p1
 	sudo cp xen.cfg p1
-	#sudo cp startup-xen.nsh p1/startup.nsh
+	sudo cp startup-xen.nsh p1/startup.nsh
 	ls p1
 	sudo umount p1
 	sudo losetup -d $loopdev

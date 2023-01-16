@@ -93,8 +93,10 @@ add-symbol-file vmlinux
 b start_kernel
 directory ../linux-4.14.219/build
 
+# xen
 add-symbol-file ./xen/xen/xen-syms 0x0000000068608000
 b efi_start
+b init_uart
 
 c
 
