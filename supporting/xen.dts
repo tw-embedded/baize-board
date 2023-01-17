@@ -186,10 +186,10 @@
 		xen,xen-bootargs = "console=ttyAMA0 noreboot loglvl=all";
 		#address-cells = <1>;
 		#size-cells = <1>;
-		module@0 {
+		/* module@0 {
 			compatible = "xen,linux-zimage","xen,multiboot-module";
-			reg = <0x32000000 0xfe0000>;
+			reg = <0x30000000 0xfe0000>;
 			bootargs = "root=/dev/vda2 rw rootfstype=ext4 rootwait earlycon=xenboot console=hvc0 init=/linuxrc ignore_loglevel";
-		};
+		}; */
 	};
 };
