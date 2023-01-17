@@ -183,7 +183,7 @@
 	chosen {
 		stdout-path = "/pl011@20000000";
 		/* xen */
-		xen,xen-bootargs = "console=ttyAMA0 noreboot loglvl=all";
+		xen,xen-bootargs = "console=dtuart noreboot loglvl=all";
 		#address-cells = <1>;
 		#size-cells = <1>;
 		/* module@0 {

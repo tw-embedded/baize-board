@@ -2,3 +2,4 @@ boot.rom
 pflash.raw
 disk.rootfs
 vmlinux
+supporting/*.dtb
