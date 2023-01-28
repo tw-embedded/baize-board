@@ -13,3 +13,6 @@
 [submodule "rootfs-hub"]
 	path = rootfs-hub
 	url = https://github.com/tw-embedded/rootfs-hub
+[submodule "linux-4.14"]
+	path = linux-4.14
+	url = https://github.com/tw-embedded/linux-4.14
