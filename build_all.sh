@@ -80,26 +80,100 @@ function build_xen() {
 	cd -
 }
 
-function update_rootfs() {
+BAREMETAL_FS=baremetal.rootfs
+DOM0_FS=dom0.rootfs
+
+function update_rootfs_for_baremetal() {
+	loopdev=$(losetup -f)
+        echo $loopdev
+        cd $MISC_PATH
+        sudo losetup $loopdev ../$BAREMETAL_FS
+        sudo partprobe $loopdev
+        ls /dev/loop*
+	# partition 1
+        if [ ! -d p1 ]; then
+                mkdir p1
+        fi
+        sudo mount $loopdev"p1" p1
+        sudo cp *.dtb p1
+        sudo cp startup.nsh p1
+	sudo cp ../../Image p1
+        ls p1
+        sudo umount p1
+	# partition 2
+	if [ ! -d p2 ]; then
+                mkdir p2
+        fi
+        sudo mount $loopdev"p2" p2
+        sudo cp -a ../rootfs/baremetal/* p2/
+        ls p2
+        sudo umount p2
+
+        sudo losetup -d $loopdev
+        cd -
+}
+
+function update_rootfs_for_dom0() {
 	loopdev=$(losetup -f)
 	echo $loopdev
 	cd $MISC_PATH
-	sudo losetup $loopdev ../disk.rootfs
+	sudo losetup $loopdev ../$DOM0_FS
 	sudo partprobe $loopdev
 	ls /dev/loop*
+	# partition 1
 	if [ ! -d p1 ]; then
 		mkdir p1
 	fi
 	sudo mount $loopdev"p1" p1
 	sudo cp *.dtb p1
-	sudo cp startup.nsh p1
 	sudo cp ../xen-4.17/dist/install/boot/xen p1
 	sudo cp xen.cfg p1
 	sudo cp startup-xen.nsh p1/startup.nsh
+	sudo cp ../../Image p1
 	ls p1
 	sudo umount p1
+	# partition 2
+	if [ ! -d p2 ]; then
+                mkdir p2
+        fi
+        sudo mount $loopdev"p2" p2
+	sudo rm -rf p2/*
+        sudo cp -a ../rootfs/dom/* p2/
+	ls p2
+	sudo umount p2
+
 	sudo losetup -d $loopdev
 	cd -
+}
+
+function prepare_images() {
+	if [ ! -f $BAREMETAL_FS ]; then
+		dd if=/dev/zero of=$BAREMETAL_FS bs=1M count=300
+		sgdisk -n 1:2048:204800 $BAREMETAL_FS
+		sgdisk -n 2:206848:614366 $BAREMETAL_FS
+		loopdev=$(losetup -f)
+		echo $loopdev
+		sudo losetup $loopdev $BAREMETAL_FS
+		sudo partprobe $loopdev
+		sudo mkfs.fat $loopdev"p1"
+		sudo mkfs.ext4 $loopdev"p2"
+		sudo losetup -d $loopdev
+	fi
+	sgdisk -p $BAREMETAL_FS
+
+	if [ ! -f $DOM0_FS ]; then
+                dd if=/dev/zero of=$DOM0_FS bs=1M count=512
+                sgdisk -n 1:2048:264191 $DOM0_FS
+		sgdisk -n 2:264192:1048542 $DOM0_FS
+		loopdev=$(losetup -f)
+                echo $loopdev
+                sudo losetup $loopdev $DOM0_FS
+                sudo partprobe $loopdev
+                sudo mkfs.fat $loopdev"p1"
+                sudo mkfs.ext4 $loopdev"p2"
+		sudo losetup -d $loopdev
+        fi
+        sgdisk -p $DOM0_FS
 }
 
 function main() {
@@ -111,7 +185,9 @@ function main() {
 	build_norflash
 	build_dtb
 	build_xen
-	update_rootfs
+	prepare_images
+	update_rootfs_for_baremetal
+	update_rootfs_for_dom0
 }
 
 main "$@"

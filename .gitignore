@@ -1,5 +1,5 @@
 boot.rom
 pflash.raw
-disk.rootfs
+*.rootfs
 vmlinux
 supporting/*.dtb

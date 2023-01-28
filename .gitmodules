@@ -10,3 +10,6 @@
 [submodule "xen-4.17"]
 	path = xen-4.17
 	url = https://github.com/tw-embedded/xen-4.17.git
+[submodule "rootfs-hub"]
+	path = rootfs-hub
+	url = https://github.com/tw-embedded/rootfs-hub
