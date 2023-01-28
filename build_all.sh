@@ -105,7 +105,7 @@ function update_rootfs_for_baremetal() {
                 mkdir p2
         fi
         sudo mount $loopdev"p2" p2
-        sudo cp -a ../rootfs/baremetal/* p2/
+        sudo tar vxf ../rootfs-hub/baremetal.tar.gz -C p2/
         ls p2
         sudo umount p2
 
@@ -138,7 +138,7 @@ function update_rootfs_for_dom0() {
         fi
         sudo mount $loopdev"p2" p2
 	sudo rm -rf p2/*
-        sudo cp -a ../rootfs/dom/* p2/
+        sudo tar vxf ../rootfs-hub/dom0.tar.gz -C p2/
 	ls p2
 	sudo umount p2
 
