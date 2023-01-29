@@ -97,7 +97,7 @@ function update_rootfs_for_baremetal() {
         sudo mount $loopdev"p1" p1
         sudo cp *.dtb p1
         sudo cp startup.nsh p1
-	sudo cp ../../Image p1
+	sudo cp ../linux-4.14/build/arch/arm64/boot/Image p1
         ls p1
         sudo umount p1
 	# partition 2
@@ -130,7 +130,7 @@ function update_rootfs_for_dom0() {
 	sudo cp ../xen-4.17/dist/install/boot/xen p1
 	sudo cp xen.cfg p1
 	sudo cp startup-xen.nsh p1/startup.nsh
-	sudo cp ../../Image p1
+	sudo cp ../linux-4.14/build/arch/arm64/boot/Image p1
 	ls p1
 	sudo umount p1
 	# partition 2
@@ -177,6 +177,18 @@ function prepare_images() {
         sgdisk -p $DOM0_FS
 }
 
+function build_kernel() {
+	if [ ! -d linux-4.14/build ]; then
+		mkdir linux-4.14/build
+		cd linux-4.14
+		make ARCH=arm64 fake_defconfig O=build
+		cd -
+	fi
+	cd linux-4.14
+	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build -j 2
+	cd -
+}
+
 function main() {
 	echo "start building..."
 	build_board
@@ -186,6 +198,7 @@ function main() {
 	build_norflash
 	build_dtb
 	build_xen
+	build_kernel
 	prepare_images
 	update_rootfs_for_baremetal
 	update_rootfs_for_dom0
