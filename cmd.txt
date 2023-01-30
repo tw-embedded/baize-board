@@ -89,9 +89,9 @@ b fake_system_reset
 
 # kernel
 d breakpoints
-add-symbol-file vmlinux
+add-symbol-file ./linux-4.14/build/vmlinux
 b start_kernel
-directory ../linux-4.14.219/build
+directory ./linux-4.14.219/build
 
 # xen
 add-symbol-file ./xen-4.17/xen/xen-syms 0x0000000068628000
