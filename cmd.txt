@@ -98,5 +98,11 @@ add-symbol-file ./xen-4.17/xen/xen-syms 0x0000000068628000
 b efi_start
 b init_uart
 
+# xl
+d breakpoints
+b ../drivers/xen/privcmd.c:82 if hypercall.op==35
+add-symbol-file ./xen-4.17/xen/xen-syms
+b enter_hypervisor_from_guest
+
 c
 

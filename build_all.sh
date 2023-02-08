@@ -105,7 +105,7 @@ function update_rootfs_for_baremetal() {
                 mkdir p2
         fi
         sudo mount $loopdev"p2" p2
-	rm -rf p2/*
+	sudo rm -rf p2/*
         sudo tar xf ../rootfs-hub/baremetal.tar.gz -C p2/
         ls p2
         sudo umount p2
@@ -117,6 +117,7 @@ function update_rootfs_for_baremetal() {
 function update_rootfs_for_dom0() {
 	loopdev=$(losetup -f)
 	echo $loopdev
+	pushd .
 	cd $MISC_PATH
 	sudo losetup $loopdev ../$DOM0_FS
 	sudo partprobe $loopdev
@@ -134,17 +135,22 @@ function update_rootfs_for_dom0() {
 	ls p1
 	sudo umount p1
 	# partition 2
+	rm -f rootfs.cpio
+	gunzip -c ../rootfs-hub/fake-dom0-fake-arm64.cpio.gz > rootfs.cpio
 	if [ ! -d p2 ]; then
                 mkdir p2
         fi
         sudo mount $loopdev"p2" p2
 	sudo rm -rf p2/*
-        sudo tar xf ../rootfs-hub/dom0.tar.gz -C p2/
+	cd p2
+	sudo cpio -idm < ../rootfs.cpio
+	rm -f ../rootfs.cpio
+	cd ..
 	ls p2
 	sudo umount p2
 
 	sudo losetup -d $loopdev
-	cd -
+	popd
 }
 
 function prepare_images() {
