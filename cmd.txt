@@ -91,7 +91,7 @@ b fake_system_reset
 d breakpoints
 add-symbol-file ./linux-4.14/build/vmlinux
 b start_kernel
-directory ./linux-4.14.219/build
+directory ./linux-4.14/build
 
 # xen
 add-symbol-file ./xen-4.17/xen/xen-syms 0x0000000068628000
@@ -103,6 +103,22 @@ d breakpoints
 b ../drivers/xen/privcmd.c:82 if hypercall.op==35
 add-symbol-file ./xen-4.17/xen/xen-syms
 b enter_hypervisor_from_guest
+
+# multiple cluseter
+d breakpoints
+b __cpu_up
+b psci_cpu_on
+b plat/fake/common/aarch64/plat_helpers.S:82
+
+# smp
+d breakpoints
+show directories
+b ../arch/arm64/kernel/smp.c:146
+#b store_cpu_topology
+b psci_setup
+b of_get_cpu_mpidr
+b boot_secondary
+b gicv3_rdistif_base_addrs_probe
 
 c
 

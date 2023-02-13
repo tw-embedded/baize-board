@@ -133,19 +133,92 @@
 		#size-cells = <0x0>;
 		#address-cells = <0x1>;
 
-		cpu@0 {
+		cpu-map {
+			cluster0 {
+				core0 {
+					cpu = <&cpu0>;
+				};
+				core1 {
+					cpu = <&cpu1>;
+				};
+				core2 {
+					cpu = <&cpu2>;
+				};
+				core3 {
+					cpu = <&cpu3>;
+				};
+			};
+			cluster1 {
+				core0 {
+					cpu = <&cpu4>;
+				};
+				core1 {
+					cpu = <&cpu5>;
+				};
+				core2 {
+					cpu = <&cpu6>;
+				};
+				core3 {
+					cpu = <&cpu7>;
+				};
+			};
+		};
+
+		cpu0: cpu@0 {
 			reg = <0x0>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
 		};
 
-		cpu@1 {
+		cpu1: cpu@1 {
 			reg = <0x1>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
 		};
+
+		cpu2: cpu@2 {
+                        reg = <0x2>;
+                        enable-method = "psci";
+                        compatible = "arm,cortex-a57";
+                        device_type = "cpu";
+                };
+
+		cpu3: cpu@3 {
+                        reg = <0x3>;
+                        enable-method = "psci";
+                        compatible = "arm,cortex-a57";
+                        device_type = "cpu";
+                };
+
+		cpu4: cpu@4 {
+                        reg = <0x100>;
+                        enable-method = "psci";
+                        compatible = "arm,cortex-a57";
+                        device_type = "cpu";
+                };
+
+		cpu5: cpu@5 {
+                        reg = <0x101>;
+                        enable-method = "psci";
+                        compatible = "arm,cortex-a57";
+                        device_type = "cpu";
+                };
+
+		cpu6: cpu@6 {
+                        reg = <0x102>;
+                        enable-method = "psci";
+                        compatible = "arm,cortex-a57";
+                        device_type = "cpu";
+                };
+
+		cpu7: cpu@7 {
+                        reg = <0x103>;
+                        enable-method = "psci";
+                        compatible = "arm,cortex-a57";
+                        device_type = "cpu";
+                };
 	};
 
 	intc@10010000 {
