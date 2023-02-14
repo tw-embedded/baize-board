@@ -82,6 +82,7 @@ function build_xen() {
 
 BAREMETAL_FS=baremetal.rootfs
 DOM0_FS=dom0.rootfs
+DOMU_FS=domu.rootfs
 
 function update_rootfs_for_baremetal() {
 	loopdev=$(losetup -f)
@@ -181,6 +182,20 @@ function prepare_images() {
 		sudo losetup -d $loopdev
 	fi
 	sgdisk -p $DOM0_FS
+
+	if [ ! -f $DOMU_FS ]; then
+		dd if=/dev/zero of=$DOMU_FS bs=1M count=1024
+		sgdisk -n 1:2048:264191 $DOMU_FS
+		sgdisk -n 2:264192:2097118 $DOMU_FS
+		loopdev=$(losetup -f)
+		echo $loopdev
+		sudo losetup $loopdev $DOMU_FS
+		sudo partprobe $loopdev
+		sudo mkfs.fat $loopdev"p1"
+		sudo mkfs.ext4 $loopdev"p2"
+		sudo losetup -d $loopdev
+	fi
+	sgdisk -p $DOMU_FS
 }
 
 function build_kernel() {
@@ -193,6 +208,43 @@ function build_kernel() {
 	cd linux-4.14
 	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build -j 2
 	cd -
+}
+
+function update_rootfs_for_domu() {
+	loopdev=$(losetup -f)
+	echo $loopdev
+	pushd .
+	cd $MISC_PATH
+	sudo losetup $loopdev ../$DOMU_FS
+	sudo partprobe $loopdev
+	ls /dev/loop*
+	# partition 1
+	if [ ! -d p1 ]; then
+		mkdir p1
+	fi
+	sudo mount $loopdev"p1" p1
+	sudo cp *.dtb p1
+	#sudo cp ../domu-kernel/build/arch/arm64/boot/Image p1
+	#sudo cp ../../Image-domu p1/
+	ls p1
+	sudo umount p1
+	# partition 2
+	rm -f rootfs.cpio
+	gunzip -c ../rootfs-hub/fake-dom0-fake-arm64.cpio.gz > rootfs.cpio
+	if [ ! -d p2 ]; then
+		mkdir p2
+	fi
+	sudo mount $loopdev"p2" p2
+	sudo rm -rf p2/*
+	cd p2
+	sudo cpio -idm < ../rootfs.cpio
+	rm -f ../rootfs.cpio
+	cd ..
+	ls p2
+	sudo umount p2
+
+	sudo losetup -d $loopdev
+	popd
 }
 
 function main() {
@@ -208,6 +260,7 @@ function main() {
 	prepare_images
 	update_rootfs_for_baremetal
 	update_rootfs_for_dom0
+	update_rootfs_for_domu
 }
 
 main "$@"
