@@ -85,33 +85,33 @@ DOM0_FS=dom0.rootfs
 
 function update_rootfs_for_baremetal() {
 	loopdev=$(losetup -f)
-        echo $loopdev
-        cd $MISC_PATH
-        sudo losetup $loopdev ../$BAREMETAL_FS
-        sudo partprobe $loopdev
-        ls /dev/loop*
+	echo $loopdev
+	cd $MISC_PATH
+	sudo losetup $loopdev ../$BAREMETAL_FS
+	sudo partprobe $loopdev
+	ls /dev/loop*
 	# partition 1
-        if [ ! -d p1 ]; then
-                mkdir p1
-        fi
-        sudo mount $loopdev"p1" p1
-        sudo cp *.dtb p1
-        sudo cp startup.nsh p1
+	if [ ! -d p1 ]; then
+		mkdir p1
+	fi
+	sudo mount $loopdev"p1" p1
+	sudo cp *.dtb p1
+	sudo cp startup.nsh p1
 	sudo cp ../linux-4.14/build/arch/arm64/boot/Image p1
-        ls p1
-        sudo umount p1
+	ls p1
+	sudo umount p1
 	# partition 2
 	if [ ! -d p2 ]; then
-                mkdir p2
-        fi
-        sudo mount $loopdev"p2" p2
+		mkdir p2
+	fi
+	sudo mount $loopdev"p2" p2
 	sudo rm -rf p2/*
-        sudo tar xf ../rootfs-hub/baremetal.tar.gz -C p2/
-        ls p2
-        sudo umount p2
+	sudo tar xf ../rootfs-hub/baremetal.tar.gz -C p2/
+	ls p2
+	sudo umount p2
 
-        sudo losetup -d $loopdev
-        cd -
+	sudo losetup -d $loopdev
+	cd -
 }
 
 function update_rootfs_for_dom0() {
@@ -138,9 +138,9 @@ function update_rootfs_for_dom0() {
 	rm -f rootfs.cpio
 	gunzip -c ../rootfs-hub/fake-dom0-fake-arm64.cpio.gz > rootfs.cpio
 	if [ ! -d p2 ]; then
-                mkdir p2
-        fi
-        sudo mount $loopdev"p2" p2
+		mkdir p2
+	fi
+	sudo mount $loopdev"p2" p2
 	sudo rm -rf p2/*
 	cd p2
 	sudo cpio -idm < ../rootfs.cpio
@@ -169,18 +169,18 @@ function prepare_images() {
 	sgdisk -p $BAREMETAL_FS
 
 	if [ ! -f $DOM0_FS ]; then
-                dd if=/dev/zero of=$DOM0_FS bs=1M count=512
-                sgdisk -n 1:2048:264191 $DOM0_FS
+		dd if=/dev/zero of=$DOM0_FS bs=1M count=512
+		sgdisk -n 1:2048:264191 $DOM0_FS
 		sgdisk -n 2:264192:1048542 $DOM0_FS
 		loopdev=$(losetup -f)
-                echo $loopdev
-                sudo losetup $loopdev $DOM0_FS
-                sudo partprobe $loopdev
-                sudo mkfs.fat $loopdev"p1"
-                sudo mkfs.ext4 $loopdev"p2"
+		echo $loopdev
+		sudo losetup $loopdev $DOM0_FS
+		sudo partprobe $loopdev
+		sudo mkfs.fat $loopdev"p1"
+		sudo mkfs.ext4 $loopdev"p2"
 		sudo losetup -d $loopdev
-        fi
-        sgdisk -p $DOM0_FS
+	fi
+	sgdisk -p $DOM0_FS
 }
 
 function build_kernel() {
