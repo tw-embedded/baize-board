@@ -16,3 +16,6 @@
 [submodule "linux-4.14"]
 	path = linux-4.14
 	url = https://github.com/tw-embedded/linux-4.14
+[submodule "domu-kernel"]
+	path = domu-kernel
+	url = https://github.com/tw-embedded/domu-kernel
