@@ -4,5 +4,7 @@
 	-drive if=pflash,format=raw,index=0,file=./pflash.raw \
 	-drive if=none,file=dom0.rootfs,id=hd0 \
 	-device virtio-blk-device,drive=hd0 \
-	-S -s
+	-drive if=none,file=domu.rootfs,id=hd1 \
+	-device virtio-blk-device,drive=hd1 \
+	#-S -s
 
