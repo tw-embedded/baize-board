@@ -120,5 +120,8 @@ b of_get_cpu_mpidr
 b boot_secondary
 b gicv3_rdistif_base_addrs_probe
 
+# domu
+d breakpoints
+
 c
 
