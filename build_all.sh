@@ -224,8 +224,7 @@ function update_rootfs_for_domu() {
 	fi
 	sudo mount $loopdev"p1" p1
 	sudo cp *.dtb p1
-	#sudo cp ../domu-kernel/build/arch/arm64/boot/Image p1
-	#sudo cp ../../Image-domu p1/
+	sudo cp ../domu-kernel/build/arch/arm64/boot/Image p1
 	ls p1
 	sudo umount p1
 	# partition 2
@@ -247,6 +246,19 @@ function update_rootfs_for_domu() {
 	popd
 }
 
+function build_domu_kernel() {
+	if [ ! -d domu-kernel/build ]; then
+		mkdir domu-kernel/build
+		cd domu-kernel
+		make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- domu_defconfig O=build
+		cd -
+	fi
+	cd domu-kernel
+	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build Image modules -j 4
+	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build modules_install INSTALL_MOD_PATH=./modules
+	cd -
+}
+
 function main() {
 	echo "start building..."
 	build_board
@@ -260,6 +272,8 @@ function main() {
 	prepare_images
 	update_rootfs_for_baremetal
 	update_rootfs_for_dom0
+
+	build_domu_kernel
 	update_rootfs_for_domu
 }
 
