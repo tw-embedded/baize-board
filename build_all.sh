@@ -225,6 +225,7 @@ function update_rootfs_for_domu() {
 	sudo mount $loopdev"p1" p1
 	sudo cp *.dtb p1
 	sudo cp ../domu-kernel/build/arch/arm64/boot/Image p1
+	sudo cp domu.cfg p1
 	ls p1
 	sudo umount p1
 	# partition 2
