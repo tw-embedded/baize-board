@@ -184,8 +184,8 @@
 		stdout-path = "/pl011@20000000";
 		/* xen */
 		xen,xen-bootargs = "console=ttyAMA0 noreboot loglvl=all dom0_mem=128M";
-		#address-cells = <1>;
-		#size-cells = <1>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		/* module@0 {
 			compatible = "xen,linux-zimage","xen,multiboot-module";
 			reg = <0x30000000 0xfe0000>;

@@ -94,7 +94,7 @@ b start_kernel
 directory ./linux-4.14/build
 
 # xen
-add-symbol-file ./xen-4.17/xen/xen-syms 0x0000000068628000
+add-symbol-file ./xen-4.17/xen/xen-syms 0x0000000128608000
 b efi_start
 b init_uart
 
@@ -120,8 +120,19 @@ b of_get_cpu_mpidr
 b boot_secondary
 b gicv3_rdistif_base_addrs_probe
 
-# domu
+# 4G memory
 d breakpoints
+b mmap_add_region_check
+# c 16
+d breakpoints
+b init_xlat_tables_ctx
+b xlat_setup_dynamic_ctx
+b init_xlat_tables
+b xlat_arch_get_max_supported_pa
+b device_tree_get_meminfo
+d breakpoints
+b efi_start
+b efi_arch_handle_module
 
 c
 
