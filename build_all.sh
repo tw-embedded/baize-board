@@ -147,6 +147,8 @@ function update_rootfs_for_dom0() {
 	sudo cpio -idm < ../rootfs.cpio
 	rm -f ../rootfs.cpio
 	cd ..
+	sudo mkdir p2/home/root/domu
+	sudo cp start-domu.sh p2/home/root/
 	ls p2
 	# install modules
 	sudo umount p2
