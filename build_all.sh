@@ -148,6 +148,7 @@ function update_rootfs_for_dom0() {
 	rm -f ../rootfs.cpio
 	cd ..
 	ls p2
+	# install modules
 	sudo umount p2
 
 	sudo losetup -d $loopdev
@@ -256,7 +257,7 @@ function build_domu_kernel() {
 	fi
 	cd domu-kernel
 	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build Image modules -j 4
-	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build modules_install INSTALL_MOD_PATH=./modules
+	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build modules_install INSTALL_MOD_PATH=.
 	cd -
 }
 
