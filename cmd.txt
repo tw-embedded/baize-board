@@ -134,5 +134,8 @@ d breakpoints
 b efi_start
 b efi_arch_handle_module
 
+# to be continue
+d breakpoints
+
 c
 

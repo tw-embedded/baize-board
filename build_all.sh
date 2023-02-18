@@ -210,6 +210,7 @@ function build_kernel() {
 	fi
 	cd linux-4.14
 	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build -j 2
+	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build modules_install INSTALL_MOD_PATH=.
 	cd -
 }
 
