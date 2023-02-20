@@ -9,6 +9,7 @@ environment
 
 Ubuntu distribution
 
+
 Build
 =============
 
@@ -17,6 +18,7 @@ After clone this repository, you should:
 
   git submodule update --init
 
+
 The essential and graphical support packages you need for a supported Ubuntu distribution are shown in the following command:
 .. code-block:: shell
 
@@ -24,10 +26,13 @@ The essential and graphical support packages you need for a supported Ubuntu dis
   sudo apt install make ninja-build meson libpixman-1-dev iasl device-tree-compiler yajl-tools pkg-config libglib2.0-dev
   sudo apt install gcc-aarch64-linux-gnu libssl-dev flex bison python3-dev
 
+
 Build all essential components (except yocto project):
+
 .. code-block:: shell
 
   ./build_all.sh
+
 
 Power on the baize-board:
 .. code-block:: shell
