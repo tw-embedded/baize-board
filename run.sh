@@ -6,5 +6,5 @@
 	-device virtio-blk-device,drive=hd1 \
 	-drive if=none,file=dom0.rootfs,id=hd0 \
 	-device virtio-blk-device,drive=hd0 \
-	-S -s
+	#-S -s
 
