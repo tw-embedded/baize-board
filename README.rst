@@ -35,6 +35,7 @@ Build all essential components (except yocto project):
 
 
 Power on the baize-board:
+
 .. code-block:: shell
 
   ./run.sh
