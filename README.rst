@@ -14,12 +14,14 @@ Build
 =============
 
 After clone this repository, you should:
+
 .. code-block:: shell
 
   git submodule update --init
 
 
 The essential and graphical support packages you need for a supported Ubuntu distribution are shown in the following command:
+
 .. code-block:: shell
 
   sudo apt update
