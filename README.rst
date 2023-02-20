@@ -2,7 +2,12 @@
 baize-board
 =============
 Baize-board is an emulator board which could run on your computer, so you do not need a real hardware.
-
+Baize-board is based on DIY soc which include ARM64 (A57) processor, UART, RTC, virtio and so on.
+This project supports:
+  arm trusted firmware
+  UEFI
+  linux
+  xen
 
 environment
 =============
