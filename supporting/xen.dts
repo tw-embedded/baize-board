@@ -146,6 +146,43 @@
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
 		};
+
+		/* there is no cpu2 */
+
+		cpu3: cpu@3 {
+			reg = <0x3>;
+			enable-method = "psci";
+			compatible = "arm,cortex-a57";
+			device_type = "cpu";
+		};
+
+		cpu4: cpu@100 {
+			reg = <0x100>;
+			enable-method = "psci";
+			compatible = "arm,cortex-a57";
+			device_type = "cpu";
+		};
+
+		cpu5: cpu@101 {
+			reg = <0x101>;
+			enable-method = "psci";
+			compatible = "arm,cortex-a57";
+			device_type = "cpu";
+		};
+
+		cpu6: cpu@102 {
+			reg = <0x102>;
+			enable-method = "psci";
+			compatible = "arm,cortex-a57";
+			device_type = "cpu";
+		};
+
+		cpu7: cpu@103 {
+			reg = <0x103>;
+			enable-method = "psci";
+			compatible = "arm,cortex-a57";
+			device_type = "cpu";
+		};
 	};
 
 	intc@10010000 {
