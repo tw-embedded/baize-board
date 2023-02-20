@@ -17,7 +17,7 @@ environment
 Ubuntu distribution
 
 
-Build
+Build & Run
 =============
 
 After clone this repository, you should:
