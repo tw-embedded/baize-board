@@ -1,5 +1,8 @@
 # baize-board
 
+Build
+=============
+
 git submodule update --init
 
 sudo apt update
