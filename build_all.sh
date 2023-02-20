@@ -229,6 +229,7 @@ function update_rootfs_for_domu() {
 	sudo mount $loopdev"p1" p1
 	sudo cp *.dtb p1
 	sudo cp ../domu-kernel/build/arch/arm64/boot/Image p1
+	sudo cp ../domu-kernel/build/arch/arm64/boot/dts/fake/fake-domu.dtb p1
 	sudo cp domu.cfg p1
 	ls p1
 	sudo umount p1
@@ -261,6 +262,7 @@ function build_domu_kernel() {
 	cd domu-kernel
 	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build Image modules -j 4
 	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build modules_install INSTALL_MOD_PATH=.
+	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build dtbs fake/fake-domu.dtb
 	cd -
 }
 
