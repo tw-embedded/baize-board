@@ -134,8 +134,14 @@ d breakpoints
 b efi_start
 b efi_arch_handle_module
 
-# to be continue
+# domu
 d breakpoints
+# remove linux-4.14 symbol & source
+#remove-symbol-file -a 0xffff000008080000
+set substitute-path ./linux-4.14/build ./domu-kernel/build
+add-symbol-file ./domu-kernel/build/vmlinux
+b start_kernel
+b blkfront_connect
 
 c
 

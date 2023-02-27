@@ -5,7 +5,7 @@ set -e
 loopdev=$(losetup -f)
 echo $loopdev
 
-sudo losetup $loopdev ../dom0.rootfs
+sudo losetup $loopdev ../domu.rootfs
 sudo partprobe $loopdev
 ls /dev/loop*
 

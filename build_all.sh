@@ -266,6 +266,15 @@ function build_domu_kernel() {
 	cd -
 }
 
+EMMC_DEV=emmc.img
+function prepare_misc() {
+	if [ ! -f $EMMC_DEV ]; then
+		dd if=/dev/zero of=$EMMC_DEV bs=1M count=64
+		sudo mkfs.ext4 $EMMC_DEV
+	fi
+	sgdisk -p $EMMC_DEV
+}
+
 function main() {
 	echo "start building..."
 	build_board
@@ -282,6 +291,8 @@ function main() {
 
 	build_domu_kernel
 	update_rootfs_for_domu
+
+	prepare_misc
 }
 
 main "$@"
