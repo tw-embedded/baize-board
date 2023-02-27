@@ -1,5 +1,6 @@
 boot.rom
 pflash.raw
 *.rootfs
+*.img
 vmlinux
 supporting/*.dtb
