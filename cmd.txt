@@ -143,5 +143,9 @@ add-symbol-file ./domu-kernel/build/vmlinux
 b start_kernel
 b blkfront_connect
 
+# reboot
+b DiscoverDramFromDt
+d breakpoints
+
 c
 
