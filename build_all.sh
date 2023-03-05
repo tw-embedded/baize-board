@@ -235,7 +235,7 @@ function update_rootfs_for_domu() {
 	sudo umount p1
 	# partition 2
 	rm -f rootfs.cpio
-	gunzip -c ../rootfs-hub/fake-dom0-fake-arm64.cpio.gz > rootfs.cpio
+	gunzip -c ../rootfs-hub/baize-domu-fake-arm64.cpio.gz > rootfs.cpio
 	if [ ! -d p2 ]; then
 		mkdir p2
 	fi
