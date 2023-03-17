@@ -61,7 +61,7 @@
 		reg = <0x0 0x20002e00 0x0 0x200>;
 		compatible = "virtio,mmio";
 		xen,passthrough;
-		status = "nokay";
+		status = "okay";
 	};
 
 /* rtc will be probed by edk2 service, efi rtc
