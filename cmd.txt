@@ -147,5 +147,10 @@ b blkfront_connect
 b DiscoverDramFromDt
 d breakpoints
 
+# passthrough bypass iommu
+b domain_create
+b arch_domain_create
+b handle_prop_pfdt
+b create_domUs
 c
 
