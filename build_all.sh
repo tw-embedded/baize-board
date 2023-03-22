@@ -275,6 +275,13 @@ function prepare_misc() {
 	sgdisk -p $EMMC_DEV
 }
 
+function build_rtos() {
+	cd freeRTOS
+	make -C Demo/CORTEX_A15_Xen_GCC
+	make -C Example
+	cd -
+}
+
 function main() {
 	echo "start building..."
 	build_board
@@ -291,6 +298,8 @@ function main() {
 
 	build_domu_kernel
 	update_rootfs_for_domu
+
+	build_rtos
 
 	prepare_misc
 }
