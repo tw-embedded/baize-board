@@ -19,6 +19,3 @@
 [submodule "domu-kernel"]
 	path = domu-kernel
 	url = https://github.com/tw-embedded/domu-kernel
-[submodule "freeRTOS"]
-	path = freeRTOS
-	url = https://github.com/tw-embedded/freeRTOS
