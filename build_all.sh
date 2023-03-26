@@ -276,9 +276,8 @@ function prepare_misc() {
 }
 
 function build_rtos() {
-	cd freeRTOS
-	make -C Demo/CORTEX_A15_Xen_GCC
-	make -C Example
+	cd dtc
+	make  libfdt
 	cd -
 }
 
