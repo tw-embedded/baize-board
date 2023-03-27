@@ -22,3 +22,6 @@
 [submodule "rtos/threadx"]
 	path = rtos/threadx
 	url = https://github.com/tw-embedded/threadx
+[submodule "rtos/dtc"]
+	path = rtos/dtc
+	url = https://github.com/tw-embedded/dtc
