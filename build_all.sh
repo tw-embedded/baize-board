@@ -279,6 +279,11 @@ function build_rtos() {
 	cd rtos/dtc
 	make CC=aarch64-linux-gnu-gcc AR=aarch64-linux-gnu-ar libfdt
 	cd -
+
+	cd rtos/threadx
+	cmake -Bbuild -GNinja -DCMAKE_TOOLCHAIN_FILE=cmake/cortex_a53.cmake
+	cmake --build ./build
+	cd -
 }
 
 function main() {
