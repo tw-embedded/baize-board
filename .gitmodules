@@ -19,6 +19,6 @@
 [submodule "domu-kernel"]
 	path = domu-kernel
 	url = https://github.com/tw-embedded/domu-kernel
-[submodule "dtc"]
-	path = dtc
-	url = https://github.com/tw-embedded/dtc
+[submodule "rtos/threadx"]
+	path = rtos/threadx
+	url = https://github.com/tw-embedded/threadx
