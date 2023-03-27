@@ -276,7 +276,7 @@ function prepare_misc() {
 }
 
 function build_rtos() {
-	cd dtc
+	cd rtos/dtc
 	make CC=aarch64-linux-gnu-gcc AR=aarch64-linux-gnu-ar libfdt
 	cd -
 }
