@@ -12,7 +12,8 @@ The following projects run on baize-board when booting:
 *  UEFI
 *  xen
 *  linux
-*  rtos
+*  rtos (doing)
+*  teeos (undo)
 
 environment
 =============
