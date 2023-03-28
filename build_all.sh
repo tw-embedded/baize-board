@@ -231,6 +231,7 @@ function update_rootfs_for_domu() {
 	sudo cp ../domu-kernel/build/arch/arm64/boot/Image p1
 	sudo cp ../domu-kernel/build/arch/arm64/boot/dts/fake/fake-domu.dtb p1
 	sudo cp domu.cfg p1
+	sudo cp ../rtos/threadx/build/ports/cortex_a53/gnu/threadxen p1
 	ls p1
 	sudo umount p1
 	# partition 2
@@ -275,7 +276,7 @@ function prepare_misc() {
 	sgdisk -p $EMMC_DEV
 }
 
-function build_rtos() {
+function build_domu_rtos() {
 	cd rtos/dtc
 	make CC=aarch64-linux-gnu-gcc AR=aarch64-linux-gnu-ar libfdt
 	cd -
@@ -301,9 +302,8 @@ function main() {
 	update_rootfs_for_dom0
 
 	build_domu_kernel
+	build_domu_rtos
 	update_rootfs_for_domu
-
-	build_rtos
 
 	prepare_misc
 }
