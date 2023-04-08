@@ -232,6 +232,19 @@
 		xen,xen-bootargs = "console=ttyAMA0 noreboot loglvl=all dom0_max_vcpus=2 dom0_vcpus_pin dom0_mem=512M";
 		#address-cells = <2>;
 		#size-cells = <2>;
+
+		cp_dom0: cpupool0 {
+			compatible = "xen,cpupool";
+			cpupool-cpus = <&cpu0 &cpu4>;
+			cpupool-sched = "null";
+		};
+
+		cp_threadx: cpupool1 {
+			compatible = "xen,cpupool";
+			cpupool-cpus = <&cpu2>;
+			cpupool-sched = "null";
+                 };
+
 		/* module@0 {
 			compatible = "xen,linux-zimage","xen,multiboot-module";
 			reg = <0x30000000 0xfe0000>;
@@ -245,7 +258,7 @@
 			cpus = <1>;
 			memory = <0 0x10000>;
 			vpl011;
-			domain-cpupool = <4>;
+			domain-cpupool = <&cp_threadx>;
 
 			module@1 {
 				compatible = "multiboot,kernel", "multiboot,module";
