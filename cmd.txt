@@ -152,5 +152,21 @@ b domain_create
 b arch_domain_create
 b handle_prop_pfdt
 b create_domUs
+
+# execute xen
+d breakpoints
+add-symbol-file /home/ubuntu/baize-board/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ShellPkg/Application/Shell/Shell/DEBUG/Shell.dll 0x128760000
+b ProcessCommandLine
+b DoStartupScript
+add-symbol-file /home/ubuntu/baize-board/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Core/Dxe/DxeMain/DEBUG/DxeCore.dll 0x12F288000
+b CoreStartImage
+
+# threadxen
+d breakpoints
+b handle_module_node
+b kernel_probe
+add-symbol-file ./rtos/threadx/build/ports/cortex_a53/gnu/threadxen.elf
+b *0x00000040000000
+
 c
 

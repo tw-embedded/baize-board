@@ -133,6 +133,7 @@ function update_rootfs_for_dom0() {
 	sudo cp xen.cfg p1
 	sudo cp startup-xen.nsh p1/startup.nsh
 	sudo cp ../linux-4.14/build/arch/arm64/boot/Image p1
+	sudo cp ../rtos/threadx/build/ports/cortex_a53/gnu/threadxen p1
 	ls p1
 	sudo umount p1
 	# partition 2
@@ -231,7 +232,6 @@ function update_rootfs_for_domu() {
 	sudo cp ../domu-kernel/build/arch/arm64/boot/Image p1
 	sudo cp ../domu-kernel/build/arch/arm64/boot/dts/fake/fake-domu.dtb p1
 	sudo cp domu.cfg p1
-	sudo cp ../rtos/threadx/build/ports/cortex_a53/gnu/threadxen p1
 	ls p1
 	sudo umount p1
 	# partition 2
@@ -282,6 +282,7 @@ function build_domu_rtos() {
 	cd -
 
 	cd rtos/threadx
+	rm -rf build
 	cmake -Bbuild -GNinja -DCMAKE_TOOLCHAIN_FILE=cmake/cortex_a53.cmake
 	cmake --build ./build
 	cd -
@@ -299,10 +300,11 @@ function main() {
 	build_kernel
 	prepare_images
 	update_rootfs_for_baremetal
-	update_rootfs_for_dom0
 
 	build_domu_kernel
 	build_domu_rtos
+
+	update_rootfs_for_dom0
 	update_rootfs_for_domu
 
 	prepare_misc

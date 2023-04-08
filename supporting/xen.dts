@@ -237,5 +237,22 @@
 			reg = <0x30000000 0xfe0000>;
 			bootargs = "root=/dev/vda2 rw rootfstype=ext4 rootwait earlycon=xenboot console=hvc0 init=/linuxrc ignore_loglevel";
 		}; */
+
+		domus {
+			compatible = "xen,domain";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			cpus = <1>;
+			memory = <0 0x10000>;
+			vpl011;
+			domain-cpupool = <4>;
+
+			module@1 {
+				compatible = "multiboot,kernel", "multiboot,module";
+				/* reg = <0x127a93000 0x1000000>; */
+				xen,uefi-binary = "threadxen";
+				bootargs = "console=ttyAMA0";
+			};
+		};
 	};
 };
