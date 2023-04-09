@@ -235,7 +235,7 @@
 
 		cp_dom0: cpupool0 {
 			compatible = "xen,cpupool";
-			cpupool-cpus = <&cpu0 &cpu4>;
+			cpupool-cpus = <&cpu0 &cpu1>;
 			cpupool-sched = "null";
 		};
 
@@ -243,13 +243,20 @@
 			compatible = "xen,cpupool";
 			cpupool-cpus = <&cpu2>;
 			cpupool-sched = "null";
-                 };
+		};
 
-		/* module@0 {
-			compatible = "xen,linux-zimage","xen,multiboot-module";
-			reg = <0x30000000 0xfe0000>;
-			bootargs = "root=/dev/vda2 rw rootfstype=ext4 rootwait earlycon=xenboot console=hvc0 init=/linuxrc ignore_loglevel";
-		}; */
+		module@0 {
+			/* compatible = "xen,linux-zimage","xen,multiboot-module"; */
+			/* reg = <0x30000000 0xfe0000>; */
+			compatible = "multiboot,kernel", "multiboot,module";
+			xen,uefi-binary = "Image";
+			bootargs = "root=/dev/vda2 rw rootfstype=ext4 rootwait earlycon console=ttyAMA0 init=/init ignore_loglevel";
+		};
+
+		module@3 {
+			compatible = "multiboot,device-tree", "multiboot,module";
+			xen,uefi-binary = "baize.dtb";
+		};
 
 		domus {
 			compatible = "xen,domain";
@@ -269,3 +276,4 @@
 		};
 	};
 };
+
