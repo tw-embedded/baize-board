@@ -149,13 +149,11 @@
 			device_type = "cpu";
 		};
 
-		/* there is no cpu2 */
 		cpu2: cpu@2 {
 			reg = <0x2>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
-			status = "noky";
 		};
 
 		cpu3: cpu@3 {
@@ -233,9 +231,12 @@
 		#address-cells = <2>;
 		#size-cells = <2>;
 
+		/* begin of dom0-dtb */
+		domain-cpupool = <&cp_dom0>;
+
 		cp_dom0: cpupool0 {
 			compatible = "xen,cpupool";
-			cpupool-cpus = <&cpu0 &cpu1>;
+			cpupool-cpus = <&cpu0 &cpu1 &cpu3 &cpu4 &cpu5 &cpu6 &cpu7>;
 			cpupool-sched = "null";
 		};
 
@@ -257,6 +258,7 @@
 			compatible = "multiboot,device-tree", "multiboot,module";
 			xen,uefi-binary = "baize.dtb";
 		};
+		/* end of dom0-dtb */
 
 		domus {
 			compatible = "xen,domain";
