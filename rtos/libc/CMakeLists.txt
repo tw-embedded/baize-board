@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
+
+# Set up the project
+project(c
+    LANGUAGES C ASM
+)
+
+# Define our target library and an alias for consumers
+add_library(${PROJECT_NAME})
+
+message(STATUS "start build: ${PROJECT_NAME}")
+
+set(CMAKE_C_COMPILER    aarch64-linux-gnu-gcc)
+set(CMAKE_CXX_COMPILER  aarch64-linux-gnu-g++)
+set(AS                  aarch64-linux-gnu-as)
+set(AR                  aarch64-linux-gnu-ar)
+set(OBJCOPY             aarch64-linux-gnu-objcopy)
+set(OBJDUMP             aarch64-linux-gnu-objdump)
+set(SIZE                aarch64-linux-gnu-size)
+
+target_sources(${PROJECT_NAME} PRIVATE
+	${CMAKE_CURRENT_LIST_DIR}/src/memset.c
+)
+
