@@ -4,3 +4,4 @@ pflash.raw
 *.img
 vmlinux
 supporting/*.dtb
+rtos/libc/build

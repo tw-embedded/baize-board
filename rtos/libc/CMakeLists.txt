@@ -20,5 +20,6 @@ set(SIZE                aarch64-linux-gnu-size)
 
 target_sources(${PROJECT_NAME} PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/src/memset.c
+	${CMAKE_CURRENT_LIST_DIR}/src/exit.c
 )
 

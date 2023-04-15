@@ -281,6 +281,11 @@ function build_domu_rtos() {
 	make CC=aarch64-linux-gnu-gcc AR=aarch64-linux-gnu-ar libfdt
 	cd -
 
+	cd rtos/libc
+	cmake -Bbuild
+	cmake --build ./build
+	cd -
+
 	cd rtos/threadx
 	rm -rf build
 	cmake -Bbuild -GNinja -DCMAKE_TOOLCHAIN_FILE=cmake/cortex_a53.cmake
