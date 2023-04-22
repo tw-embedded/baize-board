@@ -15,13 +15,13 @@
 
 		cp_dom0: cpupool0 {
 			compatible = "xen,cpupool";
-			cpupool-cpus = <&cpu0 &cpu1 &cpu3 &cpu4 &cpu5 &cpu6 &cpu7>;
+			cpupool-cpus = <&cpu0 &cpu1 &cpu2 &cpu3 &cpu4 &cpu5 &cpu6>;
 			cpupool-sched = "null";
 		};
 
 		cp_threadx: cpupool1 {
 			compatible = "xen,cpupool";
-			cpupool-cpus = <&cpu2>;
+			cpupool-cpus = <&cpu7>;
 			cpupool-sched = "null";
 		};
 
