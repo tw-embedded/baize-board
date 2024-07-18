@@ -85,7 +85,7 @@ DOM0_FS=dom0.rootfs
 DOMU_FS=domu.rootfs
 
 function update_rootfs_for_baremetal() {
-	loopdev=$(losetup -f)
+	loopdev=$(sudo losetup -f)
 	echo $loopdev
 	cd $MISC_PATH
 	sudo losetup $loopdev ../$BAREMETAL_FS
@@ -163,7 +163,7 @@ function prepare_images() {
 		dd if=/dev/zero of=$BAREMETAL_FS bs=1M count=300
 		sgdisk -n 1:2048:204800 $BAREMETAL_FS
 		sgdisk -n 2:206848:614366 $BAREMETAL_FS
-		loopdev=$(losetup -f)
+		loopdev=$(sudo losetup -f)
 		echo $loopdev
 		sudo losetup $loopdev $BAREMETAL_FS
 		sudo partprobe $loopdev
@@ -177,7 +177,7 @@ function prepare_images() {
 		dd if=/dev/zero of=$DOM0_FS bs=1M count=512
 		sgdisk -n 1:2048:264191 $DOM0_FS
 		sgdisk -n 2:264192:1048542 $DOM0_FS
-		loopdev=$(losetup -f)
+		loopdev=$(sudo losetup -f)
 		echo $loopdev
 		sudo losetup $loopdev $DOM0_FS
 		sudo partprobe $loopdev
@@ -191,7 +191,7 @@ function prepare_images() {
 		dd if=/dev/zero of=$DOMU_FS bs=1M count=1024
 		sgdisk -n 1:2048:264191 $DOMU_FS
 		sgdisk -n 2:264192:2097118 $DOMU_FS
-		loopdev=$(losetup -f)
+		loopdev=$(sudo losetup -f)
 		echo $loopdev
 		sudo losetup $loopdev $DOMU_FS
 		sudo partprobe $loopdev
@@ -216,7 +216,7 @@ function build_kernel() {
 }
 
 function update_rootfs_for_domu() {
-	loopdev=$(losetup -f)
+	loopdev=$(sudo losetup -f)
 	echo $loopdev
 	pushd .
 	cd $MISC_PATH
