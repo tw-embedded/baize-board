@@ -224,19 +224,20 @@
 	};
 
 	intc@10010000 {
-			phandle = <0x8001>;
-			interrupts = <0x1 0x9 0x4>; /* GIC_PPI ARCH_GIC_MAINT_IRQ IRQ_TYPE_LEVEL_HIGH */
-			reg = <0x0 0x10010000 0x0 0x10000 0x0 0x10020000 0x0 0x04000000>;
-			#redistributor-regions = <0x1>;
-			compatible = "arm,gic-v3";
-			ranges;
-			#size-cells = <0x2>;
-			#address-cells = <0x2>;
-			interrupt-controller;
-			#interrupt-cells = <0x3>;
+		phandle = <0x8001>;
+		interrupts = <0x1 0x9 0x4>; /* GIC_PPI ARCH_GIC_MAINT_IRQ IRQ_TYPE_LEVEL_HIGH */
+		reg = <0x0 0x10010000 0x0 0x10000 0x0 0x10020000 0x0 0x04000000>;
+		#redistributor-regions = <0x1>;
+		compatible = "arm,gic-v3";
+		ranges;
+		#size-cells = <0x2>;
+		#address-cells = <0x2>;
+		interrupt-controller;
+		#interrupt-cells = <0x3>;
 	};
 
 	timer {
+		/* Interrupt list for secure, non-secure, virtual and hypervisor timers, in that order. */
 		interrupts = <0x1 0xa 0x304 0x1 0xb 0x304 0x1 0xc 0x304 0x1 0xd 0x304>;
 		always-on;
 		compatible = "arm,armv8-timer", "arm,armv7-timer";
