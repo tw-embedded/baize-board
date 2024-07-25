@@ -171,6 +171,7 @@ b *0x00000040000000
 b main
 b HYPERVISOR_console_io
 b irqHandler
-
+b irqFirstLevelHandler
+b fiqFirstLevelHandler
 c
 
