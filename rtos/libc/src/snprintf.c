@@ -7,9 +7,8 @@
 #include <assert.h>
 #include <stdarg.h>
 #include <stdint.h>
-
-#include <common/debug.h>
-#include <plat/common/platform.h>
+#include <stddef.h>
+#include <stdbool.h>
 
 #define get_num_va_args(_args, _lcount)				\
 	(((_lcount) > 1)  ? va_arg(_args, long long int) :	\
