@@ -18,6 +18,8 @@ set(OBJCOPY             aarch64-linux-gnu-objcopy)
 set(OBJDUMP             aarch64-linux-gnu-objdump)
 set(SIZE                aarch64-linux-gnu-size)
 
+target_compile_options(${PROJECT_NAME} PRIVATE -fno-stack-protector)
+
 target_sources(${PROJECT_NAME} PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/src/memset.c
 	${CMAKE_CURRENT_LIST_DIR}/src/exit.c
