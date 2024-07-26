@@ -173,5 +173,6 @@ b HYPERVISOR_console_io
 b irqHandler
 b irqFirstLevelHandler
 b fiqFirstLevelHandler
+d breakpoints
+b _tx_timer_interrupt
 c
-

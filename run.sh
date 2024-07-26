@@ -1,3 +1,10 @@
+if [ -z $1 ]; then
+	echo "no debug"
+	DEBUG=""
+else
+	DEBUG="-S -s"
+fi
+
 #gdb --args \
 ./qemu/build/qemu-system-aarch64 -machine baize -nographic \
 	-bios ./boot.rom \
@@ -8,5 +15,5 @@
 	-device virtio-blk-device,drive=hd1 \
 	-drive if=none,file=dom0.rootfs,id=hd0 \
 	-device virtio-blk-device,drive=hd0 \
-	-S -s
+	${DEBUG}
 
