@@ -6,7 +6,10 @@
 
 #include <stdio.h>
 
-#include <drivers/console.h>
+int __attribute__((weak)) console_putc(unsigned char c)
+{
+    return 0;
+}
 
 int putchar(int c)
 {

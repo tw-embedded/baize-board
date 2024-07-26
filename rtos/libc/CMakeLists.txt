@@ -24,5 +24,8 @@ target_sources(${PROJECT_NAME} PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/src/memset.c
 	${CMAKE_CURRENT_LIST_DIR}/src/exit.c
 	${CMAKE_CURRENT_LIST_DIR}/src/snprintf.c
+	${CMAKE_CURRENT_LIST_DIR}/src/putchar.c
+	${CMAKE_CURRENT_LIST_DIR}/src/puts.c
+	${CMAKE_CURRENT_LIST_DIR}/src/printf.c
 )
 
