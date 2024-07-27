@@ -278,7 +278,7 @@ function prepare_misc() {
 
 function build_domu_rtos() {
 	cd rtos/dtc
-	make CC=aarch64-linux-gnu-gcc AR=aarch64-linux-gnu-ar libfdt
+	make CC=aarch64-linux-gnu-gcc AR=aarch64-linux-gnu-ar libfdt V=1
 	cd -
 
 	cd rtos/libc

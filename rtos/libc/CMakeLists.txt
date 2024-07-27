@@ -27,5 +27,9 @@ target_sources(${PROJECT_NAME} PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/src/putchar.c
 	${CMAKE_CURRENT_LIST_DIR}/src/puts.c
 	${CMAKE_CURRENT_LIST_DIR}/src/printf.c
+	${CMAKE_CURRENT_LIST_DIR}/src/memmove.c
+	${CMAKE_CURRENT_LIST_DIR}/src/memcmp.c
+	${CMAKE_CURRENT_LIST_DIR}/src/memcpy.c
+	${CMAKE_CURRENT_LIST_DIR}/src/strlen.c
 )
 

@@ -175,4 +175,6 @@ b irqFirstLevelHandler
 b fiqFirstLevelHandler
 d breakpoints
 b _tx_timer_interrupt
+b el1_entry_aarch64
 c
+
