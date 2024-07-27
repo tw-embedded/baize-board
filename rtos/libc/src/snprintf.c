@@ -12,8 +12,6 @@
 
 #define ERROR(...)
 #define plat_panic_handler()
-#undef assert
-#define assert(v)
 
 #define get_num_va_args(_args, _lcount)				\
 	(((_lcount) > 1)  ? va_arg(_args, long long int) :	\
