@@ -166,7 +166,7 @@ d breakpoints
 b handle_module_node
 b kernel_probe
 d breakpoints
-add-symbol-file ./rtos/threadx/build/ports/cortex_a53/gnu/threadxen.elf
+add-symbol-file ./rtos/threadx/build/ports/cortex_a53/gnu/threadxen.elf 0x0000000040002f90
 b *0x00000040000000
 b main
 b HYPERVISOR_console_io
@@ -176,5 +176,7 @@ b fiqFirstLevelHandler
 d breakpoints
 b _tx_timer_interrupt
 b el1_entry_aarch64
+b *0x10000000
+b *0x00000040000000
 c
 
