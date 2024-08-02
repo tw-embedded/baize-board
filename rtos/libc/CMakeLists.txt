@@ -34,5 +34,6 @@ target_sources(${PROJECT_NAME} PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/src/strrchr.c
 	${CMAKE_CURRENT_LIST_DIR}/src/memchr.c
 	${CMAKE_CURRENT_LIST_DIR}/src/strnlen.c
+	${CMAKE_CURRENT_LIST_DIR}/src/strcmp.c
 )
 
