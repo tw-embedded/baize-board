@@ -11,8 +11,8 @@ The following projects run on baize-board when booting:
 *  arm trusted firmware
 *  UEFI
 *  xen
-*  linux
-*  rtos (doing)
+*  linux (dom0)
+*  threadx (dom0-less)
 *  teeos (undo)
 
 environment
