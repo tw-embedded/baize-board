@@ -2,10 +2,14 @@
 name = "rust"
 version = "0.1.0"
 edition = "2021"
+build = "build.rs"
 
 [lib]
 name = "rust"
 crate-type = ["staticlib"]
+
+[build-dependencies]
+bindgen = "0.59"
 
 [dependencies]
 

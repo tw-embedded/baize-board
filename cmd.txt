@@ -181,6 +181,9 @@ d breakpoints
 add-symbol-file ./rtos/threadx/build/ports/cortex_a53/gnu/threadxen.elf 0x0000000010002f90
 b main
 b mmap_dev
+d breakpoints
+
 b *0x00000040000000
+b _tx_thread_sleep
 c
 

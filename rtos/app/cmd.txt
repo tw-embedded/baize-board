@@ -3,4 +3,6 @@ rustup target list
 rustup target add aarch64-unknown-none
 cargo build
 nm -C target/aarch64-unknown-none/debug/librust.a | grep main
+sudo apt install libclang-dev
+aarch64-linux-gnu-gcc -E -x c - < /dev/null -v
 
