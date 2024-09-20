@@ -5,3 +5,6 @@ pflash.raw
 vmlinux
 supporting/*.dtb
 rtos/libc/build
+rtos/app/rust/target
+rtos/app/rust/Cargo.lock
+

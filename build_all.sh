@@ -286,6 +286,11 @@ function build_domu_rtos() {
 	cmake --build ./build
 	cd -
 
+	cd rtos/app/rust
+	cargo clean
+	cargo build
+	cd -
+
 	cd rtos/threadx
 	rm -rf build
 	cmake -Bbuild -GNinja -DCMAKE_TOOLCHAIN_FILE=cmake/cortex_a53.cmake

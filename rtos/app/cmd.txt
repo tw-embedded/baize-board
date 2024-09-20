@@ -1,0 +1,6 @@
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+rustup target list
+rustup target add aarch64-unknown-none
+cargo build
+nm -C target/aarch64-unknown-none/debug/librust.a | grep main
+
