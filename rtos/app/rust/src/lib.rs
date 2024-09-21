@@ -6,12 +6,15 @@ mod macros;
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 extern "C" fn thread_entry(_input: ULONG) {
-    println!("rust thread entry function executing.");
+    //println!("rust thread entry function executing.");
     
     let mut cnt = 1;
     loop {
-        println!("rust delay");
-        unsafe { _tx_thread_sleep(100); }
+        //println!("rust delay");
+        extern "C" {
+            fn printf(format: *const u8, ...) -> i32;
+        }
+        unsafe { printf(b"rust delay\n\0".as_ptr()); _tx_thread_sleep(100); }
         cnt += 1;
     }
 }
@@ -29,8 +32,8 @@ fn create_thread() {
             0,
             stack.as_mut_ptr() as *mut core::ffi::c_void,
             stack.len() as ULONG,
-            1,
-            1,
+            1, // priority
+            1, // pre-priority
             0,
             1
         );
