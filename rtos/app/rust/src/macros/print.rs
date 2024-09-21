@@ -1,24 +1,22 @@
+#![no_std]
 
 #[macro_export]
-macro_rules! println {
-    ($($arg:tt)*) => {{
-        use core::fmt::{Write};
-
-        struct Printer;
-
-        extern "C" {
-            fn printf(format: *const u8, ...) -> i32;
-        }
-        impl Write for Printer {
-            fn write_str(&mut self, s: &str) -> core::fmt::Result {
-                unsafe {
-                    printf("%s\0".as_ptr(), s.as_ptr());
-                }
-                Ok(())
+macro_rules! print {
+    ($fmt:expr) => {{
+        unsafe {
+            extern "C" {
+                fn printf(fmt: *const i8, ...) -> i32;
             }
+            printf(concat!($fmt, "\n\0").as_ptr() as *const i8);
         }
-
-        let _ = writeln!(Printer, $($arg)*);
+    }};
+    ($fmt:expr, $($arg:tt)*) => {{
+        unsafe {
+            extern "C" {
+                fn printf(fmt: *const i8, ...) -> i32;
+            }
+            printf(concat!($fmt, "\n\0").as_ptr() as *const i8, $($arg)*);
+        }
     }};
 }
 

@@ -6,15 +6,12 @@ mod macros;
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 extern "C" fn thread_entry(_input: ULONG) {
-    //println!("rust thread entry function executing.");
+    print!("rust thread entry function executing.");
     
     let mut cnt = 1;
     loop {
-        //println!("rust delay");
-        extern "C" {
-            fn printf(format: *const u8, ...) -> i32;
-        }
-        unsafe { printf(b"rust delay\n\0".as_ptr()); _tx_thread_sleep(100); }
+        print!("rust delay %d", cnt);
+        unsafe { _tx_thread_sleep(100); }
         cnt += 1;
     }
 }
@@ -39,16 +36,16 @@ fn create_thread() {
         );
 
         if status == 0 {
-            println!("thread created successfully!");
+            print!("thread created successfully!");
         } else {
-            println!("failed to create thread. status: {}", status);
+            print!("failed to create thread. status: {}", status);
         }
     }
 }
 
 #[no_mangle]
 pub extern "C" fn rust_main() {
-    println!("rust main");
+    print!("rust main");
     create_thread();
 }
 
