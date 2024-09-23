@@ -12,7 +12,8 @@ struct Allocator;
 
 unsafe impl GlobalAlloc for Allocator {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-        pr_info!("implement alloc!!!");    
+        pr_info!("implement alloc!!!");
+        assert!(false);
         core::ptr::null_mut()
     }
 

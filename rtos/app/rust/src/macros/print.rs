@@ -41,7 +41,8 @@ macro_rules! println {
         }
 
         let mut printer = Printer;
-        let _ = write!(printer, "{}\n\0", format_args!($($arg)*));
+        let _ = write!(printer, "{}\0", format_args!($($arg)*));
+        unsafe { printf(b"\n\0".as_ptr() as *const i8); }
     }};
 }
 
