@@ -24,26 +24,28 @@ unsafe impl GlobalAlloc for Allocator {
 #[global_allocator]
 static ALLOC: Allocator = Allocator;
 
+//#[cfg(not(feature = "strict-align"))]
+//compile_error!("need +strict-align feature!");
+
 extern "C" fn thread_entry(_input: ULONG) {
     pr_info!("rust thread entry function executing.");
     
     let mut cnt = 1;
     loop {
         pr_info!("rust delay %d", cnt);
-        println!("count {}", cnt);
+        println!("count {:x}", cnt);
         println!("cnt {}", cnt);
         unsafe { _tx_thread_sleep(100); }
         cnt += 1;
     }
 }
 
-// note: for println, 1024 is not enough!
 static mut stack: [u8; 2048] = [0; 2048];
+
+static mut thread: TX_THREAD = unsafe { core::mem::zeroed() };
 
 fn create_thread() {
     unsafe {
-        let mut thread: TX_THREAD = core::mem::zeroed();
-
         let status = _tx_thread_create(
             &mut thread as *mut TX_THREAD,
             b"rust_thread\0".as_ptr() as *mut i8,

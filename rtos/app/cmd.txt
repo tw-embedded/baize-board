@@ -6,3 +6,5 @@ nm -C target/aarch64-unknown-none/debug/librust.a | grep main
 sudo apt install libclang-dev
 aarch64-linux-gnu-gcc -E -x c - < /dev/null -v
 
+rustc --print target-features --target=aarch64-unknown-none
+

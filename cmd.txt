@@ -184,6 +184,10 @@ b mmap_dev
 d breakpoints
 
 b *0x00000040000000
-b _tx_thread_sleep
+#b _tx_thread_sleep
+b rust_main
+watch *0x10017780
+b thread_entry
+b _tx_thread_timeout
 c
 

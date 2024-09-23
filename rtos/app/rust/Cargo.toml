@@ -8,6 +8,9 @@ build = "build.rs"
 name = "rust"
 crate-type = ["staticlib"]
 
+[profile.release]
+opt-level = 'z'
+
 [build-dependencies]
 bindgen = "0.59"
 
