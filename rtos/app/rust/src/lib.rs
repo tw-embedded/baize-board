@@ -5,18 +5,39 @@ mod macros;
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
+use core::alloc::{GlobalAlloc, Layout};
+use core::panic::PanicInfo;
+
+struct Allocator;
+
+unsafe impl GlobalAlloc for Allocator {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        pr_info!("implement alloc!!!");    
+        core::ptr::null_mut()
+    }
+
+    unsafe fn dealloc(&self, _ptr: *mut u8, _layout: Layout) {
+    }
+}
+
+#[global_allocator]
+static ALLOC: Allocator = Allocator;
+
 extern "C" fn thread_entry(_input: ULONG) {
-    print!("rust thread entry function executing.");
+    pr_info!("rust thread entry function executing.");
     
     let mut cnt = 1;
     loop {
-        print!("rust delay %d", cnt);
+        pr_info!("rust delay %d", cnt);
+        println!("count {}", cnt);
+        println!("cnt {}", cnt);
         unsafe { _tx_thread_sleep(100); }
         cnt += 1;
     }
 }
 
-static mut stack: [u8; 1024] = [0; 1024];
+// note: for println, 1024 is not enough!
+static mut stack: [u8; 2048] = [0; 2048];
 
 fn create_thread() {
     unsafe {
@@ -36,16 +57,16 @@ fn create_thread() {
         );
 
         if status == 0 {
-            print!("thread created successfully!");
+            pr_info!("thread created successfully!");
         } else {
-            print!("failed to create thread. status: {}", status);
+            pr_info!("failed to create thread. status: {}", status);
         }
     }
 }
 
 #[no_mangle]
 pub extern "C" fn rust_main() {
-    print!("rust main");
+    pr_info!("rust main");
     create_thread();
 }
 
