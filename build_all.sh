@@ -288,7 +288,7 @@ function build_domu_rtos() {
 
 	cd rtos/app/rust
 	cargo clean
-	cargo build --release
+	cargo build --release --verbose
 	cd -
 
 	cd rtos/threadx

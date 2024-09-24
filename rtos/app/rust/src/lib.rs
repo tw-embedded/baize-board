@@ -27,32 +27,45 @@ static ALLOC: Allocator = Allocator;
 //#[cfg(not(feature = "strict-align"))]
 //compile_error!("need +strict-align feature!");
 
+const STACK_MAGIC: u8 = 0xef;
+
 extern "C" fn thread_entry(_input: ULONG) {
     pr_info!("rust thread entry function executing.");
     
     let mut cnt = 1;
     loop {
-        pr_info!("rust delay %d", cnt);
-        println!("count {:x}", cnt);
-        println!("cnt {}", cnt);
+        println!("rust delay {}", cnt);
         unsafe { _tx_thread_sleep(100); }
         cnt += 1;
+
+        // stack water level check
+        unsafe { 
+            println!("stack bottom {:x}", STACK.as_ptr() as usize); // use {:?} to format as_ptr is a bad idea
+            for (index, &value) in STACK.iter().enumerate() {
+                if value != STACK_MAGIC {
+                    //println!("stack water level {}", index);
+                    pr_info!("stack water level %x. value %x", index, value as u32);
+                    break;
+                }
+            }
+        }
     }
 }
 
-static mut stack: [u8; 2048] = [0; 2048];
+// 1024 is not enough for rust core format
+static mut STACK: [u8; 2048] = [0; 2048];
 
-static mut thread: TX_THREAD = unsafe { core::mem::zeroed() };
+static mut THREAD: TX_THREAD = unsafe { core::mem::zeroed() };
 
 fn create_thread() {
     unsafe {
         let status = _tx_thread_create(
-            &mut thread as *mut TX_THREAD,
+            &mut THREAD as *mut TX_THREAD,
             b"rust_thread\0".as_ptr() as *mut i8,
             Some(thread_entry),
             0,
-            stack.as_mut_ptr() as *mut core::ffi::c_void,
-            stack.len() as ULONG,
+            STACK.as_mut_ptr() as *mut core::ffi::c_void,
+            STACK.len() as ULONG,
             1, // priority
             1, // pre-priority
             0,
@@ -62,7 +75,7 @@ fn create_thread() {
         if status == 0 {
             pr_info!("thread created successfully!");
         } else {
-            pr_info!("failed to create thread. status: {}", status);
+            pr_info!("failed to create thread. status: %d", status);
         }
     }
 }
