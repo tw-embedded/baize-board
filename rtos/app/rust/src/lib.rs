@@ -5,24 +5,31 @@ mod macros;
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
+extern crate alloc;
+
 use core::alloc::{GlobalAlloc, Layout};
 use core::panic::PanicInfo;
+use alloc::string::String;
 
-struct Allocator;
+use alloc::vec::Vec;
 
-unsafe impl GlobalAlloc for Allocator {
-    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-        pr_info!("implement alloc!!!");
-        assert!(false);
-        core::ptr::null_mut()
-    }
-
-    unsafe fn dealloc(&self, _ptr: *mut u8, _layout: Layout) {
-    }
-}
+use linked_list_allocator::LockedHeap;
 
 #[global_allocator]
-static ALLOC: Allocator = Allocator;
+static ALLOCATOR: LockedHeap = LockedHeap::empty();
+
+const HEAP_SIZE: usize = 512;
+static mut heap: [u8; HEAP_SIZE] = [0u8; HEAP_SIZE];
+
+fn init_heap() {
+    unsafe { ALLOCATOR.lock().init(heap.as_mut_ptr() as *mut u8, HEAP_SIZE); }
+}
+
+fn test_string() {
+    let mut s = String::from("test");
+    s.push_str("-str");
+    println!("{}", s);
+}
 
 //#[cfg(not(feature = "strict-align"))]
 //compile_error!("need +strict-align feature!");
@@ -37,6 +44,7 @@ extern "C" fn thread_entry(_input: ULONG) {
         println!("rust delay {}", cnt);
         unsafe { _tx_thread_sleep(100); }
         cnt += 1;
+        test_string();
 
         // stack water level check
         unsafe { 
@@ -83,6 +91,7 @@ fn create_thread() {
 #[no_mangle]
 pub extern "C" fn rust_main() {
     pr_info!("rust main");
+    init_heap();
     create_thread();
 }
 

@@ -15,4 +15,5 @@ opt-level = 'z'
 bindgen = "0.59"
 
 [dependencies]
+linked_list_allocator = "0.10"
 
