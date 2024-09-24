@@ -2,6 +2,8 @@
 #![no_main]
 
 mod macros;
+mod framework;
+use crate::framework::bus;
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
@@ -93,5 +95,6 @@ pub extern "C" fn rust_main() {
     pr_info!("rust main");
     init_heap();
     create_thread();
+    bus::start_framework();
 }
 
