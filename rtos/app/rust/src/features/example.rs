@@ -2,6 +2,7 @@ use core::cell::RefCell;
 use alloc::vec::Vec;
 use alloc::boxed::Box;
 use alloc::string::String; 
+use core::any::Any;
 
 use crate::framework::event;
 use crate::framework::bus;
@@ -15,6 +16,8 @@ impl event::Event for MyEvent {
     fn get_type(&self) -> &'static str {
         "MyEvent"
     }
+
+    fn as_any(&self) -> &dyn Any { self }
 }
 
 pub struct MyEventHandler;
@@ -22,9 +25,9 @@ pub struct MyEventHandler;
 impl event::EventHandler for MyEventHandler {
     fn handle(&self, event: &dyn event::Event) {
         if event.get_type() == "MyEvent" {
-            //let my_event = event.downcast_ref::<myevent::MyEvent>().unwrap();
+            let my_event = event.as_any().downcast_ref::<MyEvent>().unwrap();
             //println!("Handling MyEvent with message: {}", my_event.message);
-            println!("handle example event...");
+            println!("handle example event...{}", my_event.message);
             //let myevent::MyEvent { message } = event;
         }
     }
