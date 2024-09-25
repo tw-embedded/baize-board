@@ -3,7 +3,7 @@
 
 mod macros;
 mod framework;
-use crate::framework::bus;
+mod features;
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
@@ -12,7 +12,6 @@ extern crate alloc;
 use core::alloc::{GlobalAlloc, Layout};
 use core::panic::PanicInfo;
 use alloc::string::String;
-
 use alloc::vec::Vec;
 
 use linked_list_allocator::LockedHeap;
@@ -90,11 +89,13 @@ fn create_thread() {
     }
 }
 
+use crate::features::example;
+
 #[no_mangle]
 pub extern "C" fn rust_main() {
     pr_info!("rust main");
     init_heap();
     create_thread();
-    bus::start_framework();
+    example::init_features();
 }
 

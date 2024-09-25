@@ -28,14 +28,3 @@ impl EventBus {
     }
 }
 
-use crate::framework::myevent;
-use crate::framework::handler;
-
-pub fn start_framework() {
-    println!("start framework...");
-    let mut bus = EventBus::new();
-    let handler = handler::MyEventHandler;
-    bus.register_handler(Box::new(handler));
-    let event = myevent::MyEvent { message: String::from("hey") };
-    bus.dispatch(&event);
-}
