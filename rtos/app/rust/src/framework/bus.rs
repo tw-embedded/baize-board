@@ -1,9 +1,7 @@
 use core::cell::RefCell;
 use alloc::vec::Vec;
 use alloc::boxed::Box;
-use alloc::string::String;
 
-use crate::println;
 use crate::framework::event;
 
 pub struct EventBus {

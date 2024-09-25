@@ -1,5 +1,3 @@
-use core::cell::RefCell;
-use alloc::vec::Vec;
 use alloc::boxed::Box;
 use alloc::string::String; 
 use core::any::Any;
@@ -33,7 +31,7 @@ impl event::EventHandler for MyEventHandler {
 
 pub fn init_features() {
     println!("start framework...");
-    let mut bus = bus::EventBus::new();
+    let bus = bus::EventBus::new();
     let handler = MyEventHandler;
     bus.register_handler(Box::new(handler));
     let event = MyEvent { message: String::from("hey") };

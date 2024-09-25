@@ -1,6 +1,9 @@
 [build]
 target = "aarch64-unknown-none"
-rustflags = "-C target-feature=+strict-align"
+rustflags = [
+    "-D warnings",
+#    "-C target-feature=+strict-align"
+]
 
 #[target.aarch64-unknown-none]
 #linker = "aarch64-linux-gnu-gcc"

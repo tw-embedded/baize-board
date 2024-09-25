@@ -1,18 +1,16 @@
 #![no_std]
 #![no_main]
 
+use crate::macros::binding::*;
+
 mod macros;
 mod framework;
 mod features;
 
-include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
-
 extern crate alloc;
 
-use core::alloc::{GlobalAlloc, Layout};
-use core::panic::PanicInfo;
 use alloc::string::String;
-use alloc::vec::Vec;
+use core::ptr::addr_of_mut;
 
 use linked_list_allocator::LockedHeap;
 
@@ -20,10 +18,10 @@ use linked_list_allocator::LockedHeap;
 static ALLOCATOR: LockedHeap = LockedHeap::empty();
 
 const HEAP_SIZE: usize = 512;
-static mut heap: [u8; HEAP_SIZE] = [0u8; HEAP_SIZE];
+static mut HEAP: [u8; HEAP_SIZE] = [0u8; HEAP_SIZE];
 
 fn init_heap() {
-    unsafe { ALLOCATOR.lock().init(heap.as_mut_ptr() as *mut u8, HEAP_SIZE); }
+    unsafe { ALLOCATOR.lock().init(HEAP.as_mut_ptr() as *mut u8, HEAP_SIZE); }
 }
 
 fn test_string() {
@@ -69,7 +67,7 @@ static mut THREAD: TX_THREAD = unsafe { core::mem::zeroed() };
 fn create_thread() {
     unsafe {
         let status = _tx_thread_create(
-            &mut THREAD as *mut TX_THREAD,
+            addr_of_mut!(THREAD) as *mut TX_THREAD, //&mut THREAD as *mut TX_THREAD,
             b"rust_thread\0".as_ptr() as *mut i8,
             Some(thread_entry),
             0,
