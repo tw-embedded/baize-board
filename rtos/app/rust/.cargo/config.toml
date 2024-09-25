@@ -1,7 +1,7 @@
 [build]
 target = "aarch64-unknown-none"
 rustflags = [
-    "-D warnings",
+    "-Dwarnings",
 #    "-C target-feature=+strict-align"
 ]
 

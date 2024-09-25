@@ -15,7 +15,7 @@ opt-level = 'z'
 bindgen = "0.59"
 
 [lints.rust]
-#warnings = "deny"
+warnings = "deny"
 
 [lints.clippy]
 todo = "warn"

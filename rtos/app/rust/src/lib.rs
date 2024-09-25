@@ -46,14 +46,12 @@ extern "C" fn thread_entry(_input: ULONG) {
         test_string();
 
         // stack water level check
-        unsafe { 
-            println!("stack bottom {:x}", STACK.as_ptr() as usize); // use {:?} to format as_ptr is a bad idea
-            for (index, &value) in STACK.iter().enumerate() {
-                if value != STACK_MAGIC {
-                    //println!("stack water level {}", index);
-                    pr_info!("stack water level %x. value %x", index, value as u32);
-                    break;
-                }
+        println!("stack bottom {:x}", unsafe { STACK.as_ptr() as usize }); // use {:?} to format as_ptr is a bad idea
+        for (index, &value) in unsafe { STACK.iter().enumerate() } {
+            if value != STACK_MAGIC {
+                //println!("stack water level {}", index);
+                pr_info!("stack water level %x. value %x", index, value as u32);
+                break;
             }
         }
     }
@@ -65,8 +63,10 @@ static mut STACK: [u8; 2048] = [0; 2048];
 static mut THREAD: TX_THREAD = unsafe { core::mem::zeroed() };
 
 fn create_thread() {
+    let status;
+
     unsafe {
-        let status = _tx_thread_create(
+        status = _tx_thread_create(
             addr_of_mut!(THREAD) as *mut TX_THREAD, //&mut THREAD as *mut TX_THREAD,
             b"rust_thread\0".as_ptr() as *mut i8,
             Some(thread_entry),
@@ -78,12 +78,11 @@ fn create_thread() {
             0,
             1
         );
-
-        if status == 0 {
-            pr_info!("thread created successfully!");
-        } else {
-            pr_info!("failed to create thread. status: %d", status);
-        }
+    }
+    if status == 0 {
+        pr_info!("thread created successfully!");
+    } else {
+        pr_info!("failed to create thread. status: %d", status);
     }
 }
 
