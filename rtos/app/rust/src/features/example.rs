@@ -26,9 +26,7 @@ impl event::EventHandler for MyEventHandler {
     fn handle(&self, event: &dyn event::Event) {
         if event.get_type() == "MyEvent" {
             let my_event = event.as_any().downcast_ref::<MyEvent>().unwrap();
-            //println!("Handling MyEvent with message: {}", my_event.message);
             println!("handle example event...{}", my_event.message);
-            //let myevent::MyEvent { message } = event;
         }
     }
 }
