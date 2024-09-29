@@ -25,7 +25,7 @@ macro_rules! register {
     ($func:ident) => {
         #[link_section = ".rust_init"]
         #[no_mangle]
-        static INIT_FUNC_PTR: extern "C" fn() = $func;
+        static INIT_FUNC_PTR: fn() = $func;
     };
 }
 

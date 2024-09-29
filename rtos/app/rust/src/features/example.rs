@@ -41,7 +41,7 @@ pub fn init_features() {
     bus.dispatch(&event);
 }
 
-pub extern "C" fn example() {
+fn example() {
     println!("----------------------example");
 }
 register!(example);
