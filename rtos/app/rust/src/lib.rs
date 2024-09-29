@@ -1,5 +1,7 @@
-#![no_std]
-#![no_main]
+#![cfg_attr(target_arch = "aarch64", no_std)]
+#![cfg_attr(target_arch = "aarch64", no_main)]
+
+extern crate alloc;
 
 use crate::macros::binding::*;
 
@@ -7,20 +9,23 @@ mod macros;
 mod framework;
 mod features;
 
-extern crate alloc;
-
 use alloc::string::String;
 use core::ptr::addr_of_mut;
 
+#[cfg(target_arch = "aarch64")]
 use linked_list_allocator::LockedHeap;
 
+#[cfg(target_arch = "aarch64")]
 #[global_allocator]
 static ALLOCATOR: LockedHeap = LockedHeap::empty();
 
+#[cfg(target_arch = "aarch64")]
 const HEAP_SIZE: usize = 512;
+#[cfg(target_arch = "aarch64")]
 static mut HEAP: [u8; HEAP_SIZE] = [0u8; HEAP_SIZE];
 
 fn init_heap() {
+    #[cfg(target_arch = "aarch64")]
     unsafe { ALLOCATOR.lock().init(HEAP.as_mut_ptr() as *mut u8, HEAP_SIZE); }
 }
 

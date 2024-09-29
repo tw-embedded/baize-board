@@ -4,6 +4,8 @@ use core::any::Any;
 
 use crate::framework::event;
 use crate::framework::bus;
+
+#[cfg(target_arch = "aarch64")]
 use crate::println;
 
 pub struct MyEvent {

@@ -19,6 +19,7 @@ macro_rules! pr_info {
     }};
 }
 
+#[cfg(target_arch = "aarch64")]
 #[macro_export]
 macro_rules! println {
     ($($arg:tt)*) => {{
@@ -45,7 +46,10 @@ macro_rules! println {
     }};
 }
 
+#[cfg(target_arch = "aarch64")]
 use core::panic::PanicInfo;
+
+#[cfg(target_arch = "aarch64")]
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     loop {}

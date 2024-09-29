@@ -290,6 +290,7 @@ function build_domu_rtos() {
 	cargo clean
 	cargo build --release --verbose
 	cargo tree
+	cargo test --target x86_64-unknown-linux-gnu -- --nocapture
 	cd -
 
 	cd rtos/threadx

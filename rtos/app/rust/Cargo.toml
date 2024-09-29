@@ -6,7 +6,7 @@ build = "build.rs"
 
 [lib]
 name = "rust"
-crate-type = ["staticlib"]
+crate-type = ["staticlib", "rlib"]
 
 [profile.release]
 opt-level = 'z'
@@ -22,4 +22,5 @@ todo = "warn"
 
 [dependencies]
 linked_list_allocator = "0.10"
+
 

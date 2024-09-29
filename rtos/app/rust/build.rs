@@ -2,6 +2,8 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
+    println!("start binding...");
+
     let include_paths = vec![
         "/usr/include",
         "/usr/lib/gcc-cross/aarch64-linux-gnu/11/include",
@@ -17,7 +19,12 @@ fn main() {
     for path in include_paths {
         builder = builder.clang_arg(format!("-I{}", path));
     }
-    println!("start binding...");
+
+    if env::var("TARGET").unwrap() == "aarch64-unknown-linux-gnu" {
+        builder = builder.layout_tests(true);
+    } else {
+        builder = builder.layout_tests(false);
+    }
 
     let bindings = builder
         .use_core()
