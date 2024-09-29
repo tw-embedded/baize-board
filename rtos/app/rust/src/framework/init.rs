@@ -1,31 +1,33 @@
 #[cfg(target_arch = "aarch64")]
 use crate::println;
 
-pub trait Initializer {
-    fn init();
-}
-
-pub struct InitInfo {
-    pub private: u32
+pub trait Feature {
+    fn init(&self);
+    fn handler(&self);
+    fn event_type(&self);
 }
 
 #[macro_export]
-macro_rules! register1 {
-    ($name:ident) => {
-        #[allow(dead_code)]
-        static GLOBAL: core::mem::MaybeUninit<InitInfo> = core::mem::MaybeUninit::uninit();
-        //static GLOBAL: core::cell::UnsafeCell<InitInfo> = core::cell::UnsafeCell::new(0);
-        //#[link_section = ".rust_init"]
-        //static const ADDR: *const InitInfo = &GLOBAL as *const InitInfo;
+macro_rules! init_call {
+    ($func:ident) => {
+        #[link_section = ".rust_init"]
+        #[no_mangle]
+        static INIT_FUNC_PTR: fn() = $func;
     };
 }
 
 #[macro_export]
 macro_rules! register {
-    ($func:ident) => {
-        #[link_section = ".rust_init"]
-        #[no_mangle]
-        static INIT_FUNC_PTR: fn() = $func;
+    ($feat:ident) => {
+        use init::Feature; // method not found if not use!
+        static _V: $feat = $feat;
+        fn _init_feature() {
+            println!("init feature!");
+            // TODO: add to golbal features
+            _V.init();
+        }
+        use crate::init_call;
+        init_call!(_init_feature);
     };
 }
 

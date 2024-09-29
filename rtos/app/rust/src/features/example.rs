@@ -4,7 +4,6 @@ use core::any::Any;
 
 use crate::framework::event;
 use crate::framework::bus;
-use crate::register;
 
 #[cfg(target_arch = "aarch64")]
 use crate::println;
@@ -40,9 +39,4 @@ pub fn init_features() {
     let event = MyEvent { message: String::from("hey") };
     bus.dispatch(&event);
 }
-
-fn example() {
-    println!("----------------------example");
-}
-register!(example);
 
