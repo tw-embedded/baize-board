@@ -3,14 +3,14 @@
 
 extern crate alloc;
 
-use crate::macros::binding::*;
-
-mod macros;
+mod platform;
 mod framework;
 mod features;
 
 use alloc::string::String;
 use core::ptr::addr_of_mut;
+
+use crate::platform::binding::*;
 
 #[cfg(target_arch = "aarch64")]
 use linked_list_allocator::LockedHeap;
