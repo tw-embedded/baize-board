@@ -23,4 +23,3 @@ todo = "warn"
 [dependencies]
 linked_list_allocator = "0.10"
 
-

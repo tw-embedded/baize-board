@@ -4,6 +4,7 @@ use core::any::Any;
 
 use crate::framework::event;
 use crate::framework::bus;
+use crate::register;
 
 #[cfg(target_arch = "aarch64")]
 use crate::println;
@@ -32,11 +33,16 @@ impl event::EventHandler for MyEventHandler {
 }
 
 pub fn init_features() {
-    println!("start framework...");
+    println!("init features...");
     let bus = bus::EventBus::new();
     let handler = MyEventHandler;
     bus.register_handler(Box::new(handler));
     let event = MyEvent { message: String::from("hey") };
     bus.dispatch(&event);
 }
+
+pub extern "C" fn example() {
+    println!("----------------------example");
+}
+register!(example);
 

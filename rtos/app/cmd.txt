@@ -8,3 +8,6 @@ aarch64-linux-gnu-gcc -E -x c - < /dev/null -v
 
 rustc --print target-features --target=aarch64-unknown-none
 
+cargo install cargo-expand
+cargo expand
+

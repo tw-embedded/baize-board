@@ -80,6 +80,7 @@ pub extern "C" fn rust_main() {
     #[cfg(target_arch = "aarch64")]
     platform::alloc::init_heap();
     create_thread();
+    framework::init::init_framework();
     features::example::init_features();
 }
 
