@@ -4,7 +4,7 @@
 extern crate alloc;
 
 mod platform;
-mod framework;
+pub mod framework;
 mod features;
 
 use alloc::string::String;
