@@ -12,23 +12,6 @@ use core::ptr::addr_of_mut;
 
 use crate::platform::binding::*;
 
-#[cfg(target_arch = "aarch64")]
-use linked_list_allocator::LockedHeap;
-
-#[cfg(target_arch = "aarch64")]
-#[global_allocator]
-static ALLOCATOR: LockedHeap = LockedHeap::empty();
-
-#[cfg(target_arch = "aarch64")]
-const HEAP_SIZE: usize = 512;
-#[cfg(target_arch = "aarch64")]
-static mut HEAP: [u8; HEAP_SIZE] = [0u8; HEAP_SIZE];
-
-fn init_heap() {
-    #[cfg(target_arch = "aarch64")]
-    unsafe { ALLOCATOR.lock().init(HEAP.as_mut_ptr() as *mut u8, HEAP_SIZE); }
-}
-
 fn test_string() {
     let mut s = String::from("test");
     s.push_str("-str");
@@ -91,13 +74,12 @@ fn create_thread() {
     }
 }
 
-use crate::features::example;
-
 #[no_mangle]
 pub extern "C" fn rust_main() {
     pr_info!("rust main");
-    init_heap();
+    #[cfg(target_arch = "aarch64")]
+    platform::alloc::init_heap();
     create_thread();
-    example::init_features();
+    features::example::init_features();
 }
 
