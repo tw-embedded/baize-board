@@ -3,15 +3,15 @@ use crate::println;
 use crate::register;
 use crate::framework::init;
 
-struct Feat1;
+struct Feat2;
 
-impl init::Feature for Feat1 {
+impl init::Feature for Feat2 {
     fn init(&self) {
-        println!("feat 1 init!");
+        println!("feat 2 init!");
     }
     fn event_type(&self) {}
     fn handler(&self) {}
 }
 
-register!(Feat1, rb_init_f1);
+register!(Feat2, rb_init_f2);
 

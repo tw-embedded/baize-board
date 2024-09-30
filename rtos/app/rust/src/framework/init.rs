@@ -1,3 +1,4 @@
+
 #[cfg(target_arch = "aarch64")]
 use crate::println;
 
@@ -8,26 +9,31 @@ pub trait Feature {
 }
 
 #[macro_export]
+macro_rules! concat_idents {
+    ($($e:ident),+ $(,)?) => { ... };
+}
+
+#[macro_export]
 macro_rules! init_call {
-    ($func:ident) => {
+    ($func:ident, $rb:ident) => {
         #[link_section = ".rust_init"]
         #[no_mangle]
-        static INIT_FUNC_PTR: fn() = $func;
+        static $rb: fn() = $func;
     };
 }
 
 #[macro_export]
 macro_rules! register {
-    ($feat:ident) => {
+    ($feat:ident, $rb_func:ident) => {
         use init::Feature; // method not found if not use!
         static _V: $feat = $feat;
-        fn _init_feature() {
-            println!("init feature!");
+        fn _init_feature_() {
+            println!("init feature {}!", stringify!($feat));
             // TODO: add to golbal features
             _V.init();
         }
         use crate::init_call;
-        init_call!(_init_feature);
+        init_call!(_init_feature_, $rb_func);
     };
 }
 
