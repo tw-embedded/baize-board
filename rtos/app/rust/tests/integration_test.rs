@@ -2,6 +2,8 @@ use core::any::Any;
 use rust::framework::bus;
 use rust::framework::event;
 
+mod features;
+
 #[test]
 fn it_test_print() {
     println!("test print done!");

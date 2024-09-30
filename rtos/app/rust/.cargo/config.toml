@@ -2,7 +2,8 @@
 target = "aarch64-unknown-none"
 rustflags = [
     "-Dwarnings",
-    #"-Ctarget-feature=+strict-align"
+    "-Ctarget-feature=+aes",
+    "-Ctarget-feature=+strict-align",
 ]
 
 #[target.aarch64-unknown-none]
