@@ -15,25 +15,28 @@ macro_rules! concat_idents {
 
 #[macro_export]
 macro_rules! init_call {
-    ($func:ident, $rb:ident) => {
+    ($func:ident) => {
         #[link_section = ".rust_init"]
         #[no_mangle]
-        static $rb: fn() = $func;
+        static _INIT_: fn() = $func;
     };
 }
 
 #[macro_export]
 macro_rules! register {
-    ($feat:ident, $rb_func:ident) => {
+    ($feat:ident, $rb_name:ident) => {
         use init::Feature; // method not found if not use!
         static _V: $feat = $feat;
-        fn _init_feature_() {
+        fn _init_feature() {
             println!("init feature {}!", stringify!($feat));
             // TODO: add to golbal features
             _V.init();
         }
-        use crate::init_call;
-        init_call!(_init_feature_, $rb_func);
+        //use crate::init_call;
+        //init_call!(_init_feature_);
+        #[link_section = ".rust_init"]
+        #[no_mangle]
+        static $rb_name: fn() = _init_feature;
     };
 }
 
