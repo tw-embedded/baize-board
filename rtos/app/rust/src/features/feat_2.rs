@@ -2,7 +2,7 @@
 use crate::println;
 use crate::framework::init;
 
-use customize_macros::feature_definition;
+use framework_macros::feature_definition;
 
 #[feature_definition]
 struct Feat2;

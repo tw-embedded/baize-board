@@ -1,5 +1,5 @@
 [package]
-name = "customize_macros"
+name = "framework_macros"
 version = "0.1.0"
 edition = "2021"
 
