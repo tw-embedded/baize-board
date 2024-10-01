@@ -1,6 +1,8 @@
 [workspace]
 members = [
-    "customize_macros",
+    "framework_macros",
     "rust",
 ]
+# workspace is not available because the librust.a includes some std and main info (maybe).
+# use rust package as root
 
