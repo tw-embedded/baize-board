@@ -1,8 +1,10 @@
 #[cfg(target_arch = "aarch64")]
 use crate::println;
-use crate::register;
 use crate::framework::init;
 
+use customize_macros::feature_definition;
+
+#[feature_definition]
 struct Feat1;
 
 impl init::Feature for Feat1 {
@@ -12,6 +14,4 @@ impl init::Feature for Feat1 {
     fn event_type(&self) {}
     fn handler(&self) {}
 }
-
-register!(Feat1, rb_init_f1);
 

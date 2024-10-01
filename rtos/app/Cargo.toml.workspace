@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "customize_macros",
+    "rust",
+]
+

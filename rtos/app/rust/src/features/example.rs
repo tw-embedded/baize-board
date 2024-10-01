@@ -40,3 +40,15 @@ pub fn init_features() {
     bus.dispatch(&event);
 }
 
+use crate::register;
+use crate::framework::init;
+struct Example;
+impl init::Feature for Example {
+    fn init(&self) {
+        println!("feat 1 init!");
+    }
+    fn event_type(&self) {}
+    fn handler(&self) {}
+}
+register!(Example, init_example);
+

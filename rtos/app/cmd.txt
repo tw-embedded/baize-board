@@ -11,3 +11,4 @@ rustc --print target-features --target=aarch64-unknown-none
 cargo install cargo-expand
 cargo expand
 
+cargo new customize_macros --lib
