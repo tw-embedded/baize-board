@@ -45,7 +45,7 @@ use crate::framework::init;
 struct Example;
 impl init::Feature for Example {
     fn init(&self) {
-        println!("feat 1 init!");
+        println!("feat example init!");
     }
     fn event_type(&self) {}
     fn handler(&self) {}
