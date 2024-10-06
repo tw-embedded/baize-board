@@ -1,10 +1,12 @@
 [build]
 target = "aarch64-unknown-none"
+
+[target.aarch64-unknown-none]
+#linker = "aarch64-linux-gnu-gcc"
 rustflags = [
     "-Dwarnings",
-    "-Ctarget-feature=+aes",
-    "-Ctarget-feature=+strict-align",
+    "-Ctarget-cpu=cortex-a53",
+    #"-Ctarget-feature=+aes",
+    #"-Ctarget-feature=+v8a,+strict-align", # https://github.com/rust-lang/rust/issues/66897
 ]
 
-#[target.aarch64-unknown-none]
-#linker = "aarch64-linux-gnu-gcc"

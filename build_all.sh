@@ -288,7 +288,7 @@ function build_domu_rtos() {
 
 	cd rtos/app/rust
 	cargo clean
-	cargo build --release --verbose
+	cargo build --release --features "aes" --verbose
 	cargo tree
 	cargo test --target x86_64-unknown-linux-gnu -- --nocapture
 	cd -

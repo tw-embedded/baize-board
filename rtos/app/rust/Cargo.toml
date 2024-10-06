@@ -24,3 +24,6 @@ todo = "warn"
 linked_list_allocator = "0.10"
 framework_macros = { path = "../framework_macros" }
 
+[features]
+aes = []
+

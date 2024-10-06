@@ -18,8 +18,8 @@ fn test_string() {
     println!("{}", s);
 }
 
-//#[cfg(not(feature = "strict-align"))]
-//compile_error!("need +strict-align feature!");
+#[cfg(all(not(feature = "aes"), target_arch = "aarch64"))]
+compile_error!("need aes feature in cargo.toml!");
 
 const STACK_MAGIC: u8 = 0xef;
 
