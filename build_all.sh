@@ -34,6 +34,12 @@ function build_uefi() {
 	cd -
 }
 
+function build_tee() {
+	cd optee_os
+	make CFG_ARM64_core=y CFG_TEE_BENCHMARK=n CFG_TEE_CORE_LOG_LEVEL=3 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_core=aarch64-linux-gnu- CROSS_COMPILE_ta_arm32=arm-linux-gnueabihf- CROSS_COMPILE_ta_arm64=aarch64-linux-gnu- DEBUG=1 O=out/arm PLATFORM=fake
+	cd -
+}
+
 function build_atf() {
 	if [ $SOC_DEBUG -eq 1 ]; then
 		ATF_PARA="DEBUG=1 -d"
@@ -41,9 +47,11 @@ function build_atf() {
 		ATF_PARA=
 	fi
 	UEFIF=../edk2/Build/Fake-AARCH64/DEBUG_GCC5/FV/FAKE_EFI.fd
+	TEEP=../optee_os/out/arm/core
 
 	cd arm-trusted-firmware/
-	make O=build ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu- PLAT=fake BL33=$UEFIF all fip $ATF_PARA
+	make O=build ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu- PLAT=fake BL32=$TEEP/tee-header_v2.bin BL32_EXTRA1=$TEEP/tee-pager_v2.bin BL32_EXTR2=$TEEP/tee-pageable_v2.bin BL32_RAM_LOCATION=tdram SPD=opteed BL33=$UEFIF all fip $ATF_PARA
+#MBEDTLS_DIR=<path-to-mbedtls-repo> TRUSTED_BOARD_BOOT=1 GENERATE_COT=1 DECRYPTION_SUPPORT=aes_gcm FW_ENC_STATUS=0 ENCRYPT_BL31=1 ENCRYPT_BL32=1
 	cd -
 }
 
@@ -304,6 +312,7 @@ function main() {
 	echo "start building..."
 	build_board
 	build_uefi
+	build_tee
 	build_atf
 	build_bootrom
 	build_norflash

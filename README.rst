@@ -13,7 +13,7 @@ The following projects run on baize-board when booting:
 *  xen
 *  linux (dom0)
 *  threadx (dom0-less)
-*  teeos (undo)
+*  teeos
 
 environment
 =============

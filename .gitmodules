@@ -25,3 +25,6 @@
 [submodule "rtos/dtc"]
 	path = rtos/dtc
 	url = https://github.com/tw-embedded/dtc
+[submodule "optee_os"]
+	path = optee_os
+	url = https://github.com/tw-embedded/optee_os
