@@ -189,5 +189,9 @@ b rust_main
 watch *0x10017780
 b thread_entry
 b _tx_thread_timeout
+
+# teeos
+d breakpoints
+b *0x8100000
 c
 
