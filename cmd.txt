@@ -191,7 +191,13 @@ b thread_entry
 b _tx_thread_timeout
 
 # teeos
+add-symbol-file ./optee_os/out/arm/core/tee.elf
 d breakpoints
 b *0x8100000
+b init_external_dt
+b bl31_main
+b bl31_setup
+b bl2_platform_setup
+b plat_get_bl_image_load_info
 c
 

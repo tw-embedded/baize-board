@@ -60,6 +60,7 @@ function build_atf() {
 }
 
 function build_bootrom() {
+	arm-trusted-firmware/tools/fiptool/fiptool info arm-trusted-firmware/build/fake/$EDK2_PATH/fip.bin
 	dd if=arm-trusted-firmware/build/fake/$EDK2_PATH/bl1.bin of=boot.rom bs=4096 conv=notrunc
 	dd if=arm-trusted-firmware/build/fake/$EDK2_PATH/fip.bin of=boot.rom seek=64 bs=4096 conv=notrunc
 }
