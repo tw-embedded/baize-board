@@ -7,8 +7,6 @@
 		stdout-path = "/pl011@20000000";
 		/* xen */
 		xen,xen-bootargs = "console=ttyAMA0 noreboot loglvl=all dom0_max_vcpus=2 dom0_vcpus_pin dom0_mem=512M";
-		#address-cells = <2>;
-		#size-cells = <2>;
 
 		/* begin of dom0-dtb */
 		domain-cpupool = <&cp_dom0>;
@@ -25,7 +23,7 @@
 			cpupool-sched = "null";
 		};
 
-		module@0 {
+		module-0 {
 			/* compatible = "xen,linux-zimage","xen,multiboot-module"; */
 			/* reg = <0x30000000 0xfe0000>; */
 			compatible = "multiboot,kernel", "multiboot,module";
@@ -33,7 +31,7 @@
 			bootargs = "root=/dev/vda2 rw rootfstype=ext4 rootwait earlycon console=ttyAMA0 init=/init ignore_loglevel";
 		};
 
-		module@3 {
+		module-3 {
 			compatible = "multiboot,device-tree", "multiboot,module";
 			xen,uefi-binary = "baize.dtb";
 		};
@@ -48,7 +46,7 @@
 			vpl011;
 			domain-cpupool = <&cp_threadx>;
 
-			module@1 {
+			module-1 {
 				compatible = "multiboot,kernel", "multiboot,module";
 				/* reg = <0x127a93000 0x1000000>; */
 				xen,uefi-binary = "threadxen";

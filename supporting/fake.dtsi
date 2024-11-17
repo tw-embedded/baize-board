@@ -1,7 +1,7 @@
 /dts-v1/;
 
 / {
-	interrupt-parent = <0x8001>;
+	interrupt-parent = <&gicv3>;
 	#size-cells = <0x2>;
 	#address-cells = <0x2>;
 	compatible = "linux,dummy-virt";
@@ -105,7 +105,7 @@
 
 	pl011@20000000 {
 		clock-names = "uartclk", "apb_pclk";
-		clocks = <0x8000 0x8000>;
+		clocks = <&apbpclk &apbpclk>;
 		interrupts = <0x0 0x10 0x4>;
 		reg = <0x0 0x20000000 0x0 0x1000>;
 		compatible = "arm,pl011", "arm,primecell";
@@ -223,8 +223,7 @@
 		};
 	};
 
-	intc@10010000 {
-		phandle = <0x8001>;
+	gicv3: intc@10010000 {
 		interrupts = <0x1 0x9 0x4>; /* GIC_PPI ARCH_GIC_MAINT_IRQ IRQ_TYPE_LEVEL_HIGH */
 		reg = <0x0 0x10010000 0x0 0x10000 0x0 0x10020000 0x0 0x04000000>;
 		#redistributor-regions = <0x1>;
@@ -248,8 +247,7 @@
 		compatible = "arm,armv8-pmuv3";
 	};
 
-	apb-pclk {
-		phandle = <0x8000>;
+	apbpclk: apb-pclk {
 		clock-output-names = "clk24mhz";
 		clock-frequency = <0x16e3600>;
 		#clock-cells = <0x0>;

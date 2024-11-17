@@ -29,7 +29,7 @@ extern "C" fn thread_entry(_input: ULONG) {
     let mut cnt = 1;
     loop {
         println!("rust delay {}", cnt);
-        unsafe { _tx_thread_sleep(100); }
+        unsafe { _tx_thread_sleep(1000); } // parameter: tick, 10ms
         cnt += 1;
         test_string();
 

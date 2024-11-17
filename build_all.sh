@@ -50,9 +50,6 @@ function build_atf() {
 	TEEP=../optee_os/out/arm/core
 
 	cd arm-trusted-firmware/
-	if [ -d build ]; then
-		rm -rf build
-	fi
 	make O=build ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu- PLAT=fake BL32=$TEEP/tee-header_v2.bin BL32_EXTRA1=$TEEP/tee-pager_v2.bin BL32_EXTR2=$TEEP/tee-pageable_v2.bin BL32_RAM_LOCATION=tdram SPD=opteed BL33=$UEFIF all fip $ATF_PARA
 #MBEDTLS_DIR=<path-to-mbedtls-repo> TRUSTED_BOARD_BOOT=1 GENERATE_COT=1 DECRYPTION_SUPPORT=aes_gcm FW_ENC_STATUS=0 ENCRYPT_BL31=1 ENCRYPT_BL32=1
 	cd -
@@ -299,7 +296,7 @@ function build_domu_rtos() {
 	cd -
 
 	cd rtos/app/rust
-	cargo clean
+	#cargo clean
 	cargo build --release --features "aes" --verbose
 	cargo tree
 	cargo test --target x86_64-unknown-linux-gnu -- --nocapture
@@ -335,5 +332,26 @@ function main() {
 	prepare_misc
 }
 
-main "$@"
+function clear_artifact() {
+	rm -rf qemu/build
+	rm -rf edk2/Build
+	rm -rf optee_os/out
+	rm -rf arm-trusted-firmware/build
+	rm -rf xen-4.17/dist
+	rm -rf linux-4.14/build
+	rm -rf domu-kernel/build
+
+	rm -rf rtos/libc/build
+	rm -rf rtos/app/rust/target
+	rm -rf rtos/threadx/build
+}
+
+if [ $# -eq 0 ]; then
+	main "@0"
+elif [ "c" == $1 ]; then
+	echo "clear artifact......"
+	clear_artifact
+else
+	echo "input error!"
+fi
 
