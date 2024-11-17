@@ -199,5 +199,12 @@ b bl31_main
 b bl31_setup
 b bl2_platform_setup
 b plat_get_bl_image_load_info
+
+d breakpoints
+b __cpu_up
+b start_secondary
+b gic_op_add
+b opteed_cpu_on_finish_handler
+b enable_mmu
 c
 

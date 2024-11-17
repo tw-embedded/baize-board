@@ -53,8 +53,7 @@ function build_atf() {
 	if [ -d build ]; then
 		rm -rf build
 	fi
-	make O=build ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu- PLAT=fake BL33=$UEFIF all fip $ATF_PARA
-	#make O=build ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu- PLAT=fake BL32=$TEEP/tee-header_v2.bin BL32_EXTRA1=$TEEP/tee-pager_v2.bin BL32_EXTR2=$TEEP/tee-pageable_v2.bin BL32_RAM_LOCATION=tdram SPD=opteed BL33=$UEFIF all fip $ATF_PARA
+	make O=build ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu- PLAT=fake BL32=$TEEP/tee-header_v2.bin BL32_EXTRA1=$TEEP/tee-pager_v2.bin BL32_EXTR2=$TEEP/tee-pageable_v2.bin BL32_RAM_LOCATION=tdram SPD=opteed BL33=$UEFIF all fip $ATF_PARA
 #MBEDTLS_DIR=<path-to-mbedtls-repo> TRUSTED_BOARD_BOOT=1 GENERATE_COT=1 DECRYPTION_SUPPORT=aes_gcm FW_ENC_STATUS=0 ENCRYPT_BL31=1 ENCRYPT_BL32=1
 	cd -
 }
