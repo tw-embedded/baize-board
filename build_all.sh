@@ -30,7 +30,7 @@ function build_uefi() {
 	make -C BaseTools
 	source edksetup.sh
 	export GCC5_AARCH64_PREFIX=aarch64-linux-gnu-
-	build -a AARCH64 -t GCC5 -b DEBUG -p FakePkg/Fake.dsc
+	build -a AARCH64 -t GCC5 -b DEBUG -p FakePkg/Fake.dsc #-v
 	cd -
 }
 
@@ -335,6 +335,11 @@ function main() {
 function clear_artifact() {
 	rm -rf qemu/build
 	rm -rf edk2/Build
+	make -C edk2/BaseTools clean
+	rm -rf edk2/Conf/BuildEnv.sh
+	rm -rf edk2/Conf/build_rule.txt
+	rm -rf edk2/Conf/target.txt
+	rm -rf edk2/Conf/tools_def.txt
 	rm -rf optee_os/out
 	rm -rf arm-trusted-firmware/build
 	rm -rf xen-4.17/dist
