@@ -31,3 +31,6 @@
 [submodule "app/trusted/optee_examples"]
 	path = app/trusted/optee_examples
 	url = https://github.com/tw-embedded/optee_examples.git
+[submodule "app/trusted/optee_client"]
+	path = app/trusted/optee_client
+	url = https://github.com/tw-embedded/optee_client.git
