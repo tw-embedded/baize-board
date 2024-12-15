@@ -28,3 +28,6 @@
 [submodule "optee_os"]
 	path = optee_os
 	url = https://github.com/tw-embedded/optee_os
+[submodule "app/trusted/optee_examples"]
+	path = app/trusted/optee_examples
+	url = https://github.com/tw-embedded/optee_examples.git
