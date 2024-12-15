@@ -309,6 +309,10 @@ function build_domu_rtos() {
 	cd -
 }
 
+function build_application() {
+	./app/trusted/build.sh
+}
+
 function main() {
 	echo "start building..."
 	build_board
@@ -325,6 +329,8 @@ function main() {
 
 	build_domu_kernel
 	build_domu_rtos
+
+	build_application
 
 	update_rootfs_for_dom0
 	update_rootfs_for_domu
