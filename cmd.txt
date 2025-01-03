@@ -208,3 +208,13 @@ b opteed_cpu_on_finish_handler
 b enable_mmu
 c
 
+d breakpoints
+b optee_driver_init # linux dom0
+b optee_msg_api_uid_is_optee_api
+b optee_probe # xen
+b optee_handle_call # optee os
+b tee_init
+b opteed_smc_handler # atf
+b thread_handle_std_smc # optee os
+b thread_handle_fast_smc
+

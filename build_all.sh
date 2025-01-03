@@ -34,9 +34,9 @@ function build_uefi() {
 	cd -
 }
 
-function build_tee() {
+function build_teeos() {
 	cd optee_os
-	make CFG_ARM64_core=y CFG_TEE_BENCHMARK=n CFG_TEE_CORE_LOG_LEVEL=3 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_core=aarch64-linux-gnu- CROSS_COMPILE_ta_arm32=arm-linux-gnueabihf- CROSS_COMPILE_ta_arm64=aarch64-linux-gnu- DEBUG=1 O=out/arm PLATFORM=fake
+	make CFG_ARM64_core=y CFG_NS_VIRTUALIZATION=y CFG_TEE_BENCHMARK=n CFG_TEE_CORE_LOG_LEVEL=3 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_core=aarch64-linux-gnu- CROSS_COMPILE_ta_arm32=arm-linux-gnueabihf- CROSS_COMPILE_ta_arm64=aarch64-linux-gnu- DEBUG=1 O=out/arm PLATFORM=fake
 	cd -
 }
 
@@ -161,6 +161,10 @@ function update_rootfs_for_dom0() {
 	sudo cp start-domu.sh p2/home/root/
 	ls p2
 	# install modules
+	# install trusted app
+	sudo mkdir p2/lib/optee_armtz
+	sudo cp ../app/trusted/optee_examples/out/ta/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta p2/lib/optee_armtz/
+	sudo cp ../app/trusted/optee_examples/out/ca/optee_example_hello_world p2/home/root/
 	sudo umount p2
 
 	sudo losetup -d $loopdev
@@ -319,7 +323,7 @@ function main() {
 	echo "start building..."
 	build_board
 	build_uefi
-	build_tee
+	build_teeos
 	build_atf
 	build_bootrom
 	build_norflash
