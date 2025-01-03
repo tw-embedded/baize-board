@@ -310,7 +310,9 @@ function build_domu_rtos() {
 }
 
 function build_application() {
-	./app/trusted/build.sh
+	cd ./app/trusted
+	./build.sh
+	cd -
 }
 
 function main() {
