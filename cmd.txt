@@ -218,3 +218,9 @@ b opteed_smc_handler # atf
 b thread_handle_std_smc # optee os
 b thread_handle_fast_smc
 
+d breakpoints
+b handle_exchange_capabilities
+b core_mmu_set_discovered_nsec_ddr
+b discover_nsec_memory
+b optee_probe
+

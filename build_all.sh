@@ -36,7 +36,7 @@ function build_uefi() {
 
 function build_teeos() {
 	cd optee_os
-	make CFG_ARM64_core=y CFG_NS_VIRTUALIZATION=y CFG_TEE_BENCHMARK=n CFG_TEE_CORE_LOG_LEVEL=3 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_core=aarch64-linux-gnu- CROSS_COMPILE_ta_arm32=arm-linux-gnueabihf- CROSS_COMPILE_ta_arm64=aarch64-linux-gnu- DEBUG=1 O=out/arm PLATFORM=fake
+	make CFG_ARM64_core=y CFG_TEE_BENCHMARK=n CFG_TEE_CORE_LOG_LEVEL=3 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_core=aarch64-linux-gnu- CROSS_COMPILE_ta_arm32=arm-linux-gnueabihf- CROSS_COMPILE_ta_arm64=aarch64-linux-gnu- DEBUG=1 O=out/arm PLATFORM=fake
 	cd -
 }
 
