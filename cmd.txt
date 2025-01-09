@@ -208,6 +208,7 @@ b opteed_cpu_on_finish_handler
 b enable_mmu
 c
 
+# debug ca
 d breakpoints
 b optee_driver_init # linux dom0
 b optee_msg_api_uid_is_optee_api
@@ -223,4 +224,14 @@ b handle_exchange_capabilities
 b core_mmu_set_discovered_nsec_ddr
 b discover_nsec_memory
 b optee_probe
+d breakpoints
+b std_entry_with_parg
+b optee_do_call_with_arg
+b optee_shm_register
+b discover_nsec_memory
+b core_mmu_check_end_pa
+d breakpoints
+b open_dirh
+b alloc_shm
+b thread_rpc_spsr
 
