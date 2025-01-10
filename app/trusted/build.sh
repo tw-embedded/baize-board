@@ -4,7 +4,7 @@ set -e
 
 if [ ! -f /opt/poky/4.1.2/environment-setup-cortexa57-poky-linux ]; then
 	echo "sdk is not installed, exit."
-	exit 1
+	exit 0
 fi
 
 source /opt/poky/4.1.2/environment-setup-cortexa57-poky-linux
