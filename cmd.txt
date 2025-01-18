@@ -234,4 +234,6 @@ d breakpoints
 b open_dirh
 b alloc_shm
 b thread_rpc_spsr
+b optee_handle_rpc
+b handle_rpc_func_cmd
 

@@ -162,6 +162,9 @@ function update_rootfs_for_dom0() {
 	ls p2
 	# install modules
 	# install trusted app
+	if [ -d ../app/trusted/optee_client/build ]; then
+		sudo cp ../app/trusted/optee_client/build/install/sbin/* p2/usr/sbin/
+	fi
 	sudo mkdir p2/lib/optee_armtz
 	if [ -d ../app/trusted/optee_examples/out ]; then
 		sudo cp ../app/trusted/optee_examples/out/ta/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta p2/lib/optee_armtz/
