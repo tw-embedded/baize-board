@@ -236,4 +236,8 @@ b alloc_shm
 b thread_rpc_spsr
 b optee_handle_rpc
 b handle_rpc_func_cmd
+d breakpoints
+b allocate_optee_shm_buf
+b optee_shm_register
+b optee_supp_thrd_req
 

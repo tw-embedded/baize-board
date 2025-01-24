@@ -35,7 +35,7 @@ export PYTHONPATH=$PYTHONPATH:~/.local/lib/python3.10/site-packages
 make \
 	--no-builtin-variables \
 	HOST_CROSS_COMPILE=aarch64-poky-linux- \
-	TA_DEV_KIT_DIR=${WORKSPACE}/optee_os/out/arm/export-ta_arm64 \
+	TA_DEV_KIT_DIR=${WORKSPACE}/../../optee_os/out/arm/export-ta_arm64 \
 	TEEC_EXPORT=${TRUSTEDIR}/optee_client/build/install \
 	--debug=v
 cd -
