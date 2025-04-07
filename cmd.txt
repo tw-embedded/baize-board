@@ -240,4 +240,8 @@ d breakpoints
 b allocate_optee_shm_buf
 b optee_shm_register
 b optee_supp_thrd_req
+d breakpoints
+b tee_ioctl_shm_register
+b handle_rpc_func_cmd_shm_free
+b translate_noncontig
 
