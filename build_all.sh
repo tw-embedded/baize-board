@@ -163,6 +163,7 @@ function update_rootfs_for_dom0() {
 	# install modules
 	# install trusted app
 	if [ -d ../app/trusted/optee_client/build ]; then
+		# systemctl status tee-supplicant@teepriv0
 		sudo cp ../app/trusted/optee_client/build/install/sbin/* p2/usr/sbin/
 	fi
 	sudo mkdir p2/lib/optee_armtz
