@@ -14,6 +14,7 @@ The following projects run on baize-board when booting:
 *  linux (dom0)
 *  threadx (dom0-less)
 *  teeos
+*  android (TODO)
 
 environment
 =============
