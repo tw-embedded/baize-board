@@ -8,6 +8,7 @@ fn main() {
         "/usr/include",
         "/usr/lib/gcc-cross/aarch64-linux-gnu/11/include",
         "/usr/lib/gcc-cross/aarch64-linux-gnu/11/../../../../aarch64-linux-gnu/include",
+        "/usr/include/aarch64-linux-gnu",
         "../../threadx/common/inc",
         "../../threadx/ports/cortex_a53/gnu/inc"
     ];

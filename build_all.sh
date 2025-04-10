@@ -295,6 +295,8 @@ function prepare_misc() {
 	sgdisk -p $EMMC_DEV
 }
 
+arch=$(uname -m)
+
 function build_domu_rtos() {
 	cd rtos/dtc
 	make CC=aarch64-linux-gnu-gcc AR=aarch64-linux-gnu-ar libfdt V=1
@@ -309,7 +311,9 @@ function build_domu_rtos() {
 	#cargo clean
 	cargo build --release --features "aes" --verbose
 	cargo tree
-	cargo test --target x86_64-unknown-linux-gnu -- --nocapture
+	if [ "$arch" == "x86_64" ]; then
+		cargo test --target x86_64-unknown-linux-gnu -- --nocapture
+	fi
 	cd -
 
 	cd rtos/threadx
