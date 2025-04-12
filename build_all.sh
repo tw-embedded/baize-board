@@ -313,6 +313,9 @@ function build_domu_rtos() {
 	cargo tree
 	if [ "$arch" == "x86_64" ]; then
 		cargo test --target x86_64-unknown-linux-gnu -- --nocapture
+	elif [ "$arch" == "aarch64" ]; then
+		echo "abandon rust!!!"
+		#cargo test --target aarch64-unknown-linux-gnu -- --nocapture
 	fi
 	cd -
 

@@ -21,7 +21,9 @@ environment
 
 Ubuntu distribution
   20.04 (x86)
+
   24.04 (x86)
+
   24.04 (arm64, **4GB RAM**)
 
 Build & Run
