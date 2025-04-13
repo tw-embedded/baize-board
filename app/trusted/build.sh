@@ -2,9 +2,20 @@
 
 set -e
 
+arch=$(uname -m)
+
 if [ ! -f /opt/poky/4.1.2/environment-setup-cortexa57-poky-linux ]; then
-	echo "sdk is not installed, exit."
-	exit 0
+	echo -e "\e[32m sdk is not installed, now install \e[0m"
+	if [ "$arch" == "x86_64" ]; then
+		../../rootfs-hub/poky-glibc-x86_64-fake-dom0-cortexa57-fake-arm64-toolchain-4.1.2.sh
+	elif [ "$arch" == "aarch64" ]; then
+		../../rootfs-hub/poky-glibc-aarch64-fake-dom0-cortexa57-fake-arm64-toolchain-4.1.2.sh
+	fi
+
+	if [ ! -f /opt/poky/4.1.2/environment-setup-cortexa57-poky-linux ]; then
+		echo "installation failed, exit"
+		exit 0
+	fi
 fi
 
 source /opt/poky/4.1.2/environment-setup-cortexa57-poky-linux
@@ -30,7 +41,10 @@ make clean
 
 CFLAGS=--sysroot=/opt/poky/4.1.2/sysroots/cortexa57-poky-linux
 export CFLAGS
-export PYTHONPATH=$PYTHONPATH:~/.local/lib/python3.10/site-packages
+# install 3.10 python modules (cryptography) to sdk
+#export PYTHONPATH=$PYTHONPATH:/usr/lib/python3/dist-packages
+#export PYTHONPATH=$PYTHONPATH:~/.local/lib/python3.10/site-packages
+# python3 -m pip show cryptography
 
 make \
 	--no-builtin-variables \
