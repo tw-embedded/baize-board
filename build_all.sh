@@ -2,6 +2,8 @@
 
 set -e
 
+RUN_ANDROID=1
+
 SOC_DEBUG=1
 
 MISC_PATH=./supporting
@@ -92,6 +94,7 @@ function build_xen() {
 BAREMETAL_FS=baremetal.rootfs
 DOM0_FS=dom0.rootfs
 DOMU_FS=domu.rootfs
+DOMU_AND_FS=android.rootfs
 
 function update_rootfs_for_baremetal() {
 	loopdev=$(sudo losetup -f)
@@ -158,7 +161,7 @@ function update_rootfs_for_dom0() {
 	rm -f ../rootfs.cpio
 	cd ..
 	sudo mkdir p2/home/root/domu
-	sudo cp start-domu.sh p2/home/root/
+	sudo cp start-*.sh p2/home/root/
 	ls p2
 	# install modules
 	# install trusted app
@@ -219,6 +222,22 @@ function prepare_images() {
 		sudo losetup -d $loopdev
 	fi
 	sgdisk -p $DOMU_FS
+
+	if [ $RUN_ANDROID -eq 1 ]; then
+		if [ ! -f $DOMU_AND_FS ]; then
+			dd if=/dev/zero of=$DOMU_AND_FS bs=1M count=10240
+			sgdisk -n 1:2048:264191 $DOMU_AND_FS
+			sgdisk -n 2:264192:20971486 $DOMU_AND_FS
+			loopdev=$(sudo losetup -f)
+			echo $loopdev
+			sudo losetup $loopdev $DOMU_AND_FS
+			sudo partprobe $loopdev
+			sudo mkfs.fat $loopdev"p1"
+			sudo mkfs.ext4 $loopdev"p2"
+			sudo losetup -d $loopdev
+		fi
+		sgdisk -p $DOMU_AND_FS
+	fi
 }
 
 function build_kernel() {
@@ -332,6 +351,39 @@ function build_application() {
 	cd -
 }
 
+function update_rootfs_for_android() {
+	if [ ! -d android ]; then
+		mkdir android
+		cp ~/android-14/out/target/product/generic_arm64/*.img android
+		cp ~/kernel_aosp/arch/arm64/boot/Image android
+	fi
+
+	pushd .
+	cd $MISC_PATH
+	sudo losetup $loopdev ../$DOMU_AND_FS
+	sudo partprobe $loopdev
+	ls /dev/loop*
+	# partition 1
+	if [ ! -d p1 ]; then
+		mkdir p1
+	fi
+	sudo mount $loopdev"p1" p1
+	sudo cp android.cfg p1
+	sudo cp ../android/Image p1
+	ls p1
+	sudo umount p1
+	if [ ! -d p2 ]; then
+		mkdir p2
+	fi
+	sudo mount $loopdev"p2" p2
+	sudo rm -rf p2/*
+	sudo cp ../android/*.img p2
+	ls p2
+
+	sudo losetup -d $loopdev
+	popd
+}
+
 function main() {
 	echo "start building..."
 	build_board
@@ -353,6 +405,9 @@ function main() {
 
 	update_rootfs_for_dom0
 	update_rootfs_for_domu
+	if [ $RUN_ANDROID -eq 1 ]; then
+		update_rootfs_for_android
+	fi
 
 	prepare_misc
 }

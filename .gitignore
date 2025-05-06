@@ -9,4 +9,5 @@ rtos/app/rust/target
 rtos/app/rust/Cargo.lock
 rtos/app/Cargo.lock
 rtos/app/target
+android
 
