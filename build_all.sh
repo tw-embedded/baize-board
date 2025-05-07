@@ -2,7 +2,7 @@
 
 set -e
 
-RUN_ANDROID=1
+RUN_ANDROID=0
 
 SOC_DEBUG=1
 
