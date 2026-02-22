@@ -34,3 +34,6 @@
 [submodule "app/trusted/optee_client"]
 	path = app/trusted/optee_client
 	url = https://github.com/tw-embedded/optee_client.git
+[submodule "android"]
+	path = android
+	url = https://github.com/tw-embedded/android

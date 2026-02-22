@@ -2,8 +2,6 @@
 
 set -e
 
-RUN_ANDROID=0
-
 SOC_DEBUG=1
 
 MISC_PATH=./supporting
@@ -223,21 +221,19 @@ function prepare_images() {
 	fi
 	sgdisk -p $DOMU_FS
 
-	if [ $RUN_ANDROID -eq 1 ]; then
-		if [ ! -f $DOMU_AND_FS ]; then
-			dd if=/dev/zero of=$DOMU_AND_FS bs=1M count=10240
-			sgdisk -n 1:2048:264191 $DOMU_AND_FS
-			sgdisk -n 2:264192:20971486 $DOMU_AND_FS
-			loopdev=$(sudo losetup -f)
-			echo $loopdev
-			sudo losetup $loopdev $DOMU_AND_FS
-			sudo partprobe $loopdev
-			sudo mkfs.fat $loopdev"p1"
-			sudo mkfs.ext4 $loopdev"p2"
-			sudo losetup -d $loopdev
-		fi
-		sgdisk -p $DOMU_AND_FS
+	if [ ! -f $DOMU_AND_FS ]; then
+		dd if=/dev/zero of=$DOMU_AND_FS bs=1M count=10240
+		sgdisk -n 1:2048:264191 $DOMU_AND_FS
+		sgdisk -n 2:264192:20971486 $DOMU_AND_FS
+		loopdev=$(sudo losetup -f)
+		echo $loopdev
+		sudo losetup $loopdev $DOMU_AND_FS
+		sudo partprobe $loopdev
+		sudo mkfs.fat $loopdev"p1"
+		sudo mkfs.ext4 $loopdev"p2"
+		sudo losetup -d $loopdev
 	fi
+	sgdisk -p $DOMU_AND_FS
 }
 
 function build_kernel() {
@@ -345,6 +341,13 @@ function build_domu_rtos() {
 	cd -
 }
 
+function build_domu_android() {
+	pushd .
+	cd android
+	./build.sh
+	popd
+}
+
 function build_application() {
 	cd ./app/trusted
 	./build.sh
@@ -352,12 +355,6 @@ function build_application() {
 }
 
 function update_rootfs_for_android() {
-	if [ ! -d android ]; then
-		mkdir android
-		cp ~/android-14/out/target/product/generic_arm64/*.img android
-		cp ~/kernel_aosp/arch/arm64/boot/Image android
-	fi
-
 	pushd .
 	cd $MISC_PATH
 	sudo losetup $loopdev ../$DOMU_AND_FS
@@ -369,7 +366,7 @@ function update_rootfs_for_android() {
 	fi
 	sudo mount $loopdev"p1" p1
 	sudo cp android.cfg p1
-	sudo cp ../android/Image p1
+	sudo cp ../rootfs-hub/android/Image p1
 	ls p1
 	sudo umount p1
 	if [ ! -d p2 ]; then
@@ -377,7 +374,7 @@ function update_rootfs_for_android() {
 	fi
 	sudo mount $loopdev"p2" p2
 	sudo rm -rf p2/*
-	sudo cp ../android/*.img p2
+	sudo cp ../rootfs-hub/android/*.img p2
 	ls p2
 
 	sudo losetup -d $loopdev
@@ -400,14 +397,13 @@ function main() {
 
 	build_domu_kernel
 	build_domu_rtos
+	build_domu_android
 
 	build_application
 
 	update_rootfs_for_dom0
 	update_rootfs_for_domu
-	if [ $RUN_ANDROID -eq 1 ]; then
-		update_rootfs_for_android
-	fi
+	update_rootfs_for_android
 
 	prepare_misc
 }

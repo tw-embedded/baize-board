@@ -9,7 +9,7 @@ for arg in "$@"; do
             echo "debug mode..."
             DEBUG="-S -s"
             ;;
-        android)
+        a|android)
             echo "using android rootfs..."
             ANDROID_DRIVE="-drive if=none,file=android.rootfs,id=hd3 -device virtio-blk-device,drive=hd3 "
             ;;
