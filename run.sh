@@ -1,17 +1,13 @@
 #!/bin/bash
 
 DEBUG=""
-ANDROID_DRIVE=""
+ANDROID_DRIVE="-drive if=none,file=android.rootfs,id=hd3 -device virtio-blk-device,drive=hd3 "
 
 for arg in "$@"; do
     case $arg in
         -d|d|debug)
             echo "debug mode..."
             DEBUG="-S -s"
-            ;;
-        a|android)
-            echo "using android rootfs..."
-            ANDROID_DRIVE="-drive if=none,file=android.rootfs,id=hd3 -device virtio-blk-device,drive=hd3 "
             ;;
         *)
             echo "run with default..."
