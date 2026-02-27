@@ -355,6 +355,8 @@ function build_application() {
 }
 
 function update_rootfs_for_android() {
+	dtc -@ -I dts -O dtb -o $MISC_PATH/virtio-gpu.dtb $MISC_PATH/virtio-gpu.dts
+
 	pushd .
 	cd $MISC_PATH
 	sudo losetup $loopdev ../$DOMU_AND_FS
@@ -367,6 +369,7 @@ function update_rootfs_for_android() {
 	sudo mount $loopdev"p1" p1
 	sudo cp android.cfg p1
 	sudo cp ../rootfs-hub/android/Image p1
+	sudo cp virtio-gpu.dtb p1
 	ls p1
 	sudo umount p1
 	if [ ! -d p2 ]; then

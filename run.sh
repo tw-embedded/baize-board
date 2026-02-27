@@ -1,7 +1,8 @@
 #!/bin/bash
 
 DEBUG=""
-ANDROID_DRIVE="-drive if=none,file=android.rootfs,id=hd3 -device virtio-blk-device,drive=hd3 "
+ANDROID_DRIVE="-drive if=none,file=android.rootfs,id=hd3 -device virtio-blk-device,drive=hd3"
+DISPLAY="-nographic"
 
 for arg in "$@"; do
     case $arg in
@@ -9,6 +10,10 @@ for arg in "$@"; do
             echo "debug mode..."
             DEBUG="-S -s"
             ;;
+        -u|u|ui)
+            DISPLAY="-device virtio-gpu-device -vnc :29 -serial stdio"
+	    #DISPLAY="-device virtio-gpu-device -vnc :29 -monitor stdio"
+	    ;;
         *)
             echo "run with default..."
      	    ;;
@@ -16,7 +21,8 @@ for arg in "$@"; do
 done
 
 #gdb --args \
-./qemu/build/qemu-system-aarch64 -machine baize -nographic \
+./qemu/build/qemu-system-aarch64 -machine baize \
+	${DISPLAY} \
 	-bios ./boot.rom \
 	-drive if=pflash,format=raw,index=0,file=./pflash.raw \
 	-drive if=none,file=emmc.img,id=hd2 \
