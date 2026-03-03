@@ -10,7 +10,7 @@ function build_board() {
 	if [ ! -d qemu/build ]; then
 		mkdir qemu/build
 		cd qemu/build
-		../configure --target-list=aarch64-softmmu
+		../configure --target-list=aarch64-softmmu --enable-opengl --enable-virglrenderer --enable-gtk --enable-kvm
 		cd -
 	fi
 	cd qemu/build

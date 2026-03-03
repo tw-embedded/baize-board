@@ -44,6 +44,7 @@ The essential and graphical support packages you need for a supported Ubuntu dis
   sudo apt install gcc-aarch64-linux-gnu libssl-dev flex bison python3-dev libncurses5-dev parted dosfstools cargo clang
   sudo apt install cmake libxen-dev python3-pyelftools libyajl-dev git-lfs
   sudo apt install gcc-multilib gdb-multiarch
+  sudo apt install libvirglrenderer-dev libgbm-dev
 
   rustup install 1.81.0
   rustup default 1.81.0

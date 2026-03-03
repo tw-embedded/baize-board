@@ -2,7 +2,7 @@
 
 DEBUG=""
 ANDROID_DRIVE="-drive if=none,file=android.rootfs,id=hd3 -device virtio-blk-device,drive=hd3"
-DISPLAY="-nographic"
+DISPLAY_OPT="-nographic"
 
 for arg in "$@"; do
     case $arg in
@@ -11,8 +11,8 @@ for arg in "$@"; do
             DEBUG="-S -s"
             ;;
         -u|u|ui)
-            DISPLAY="-device virtio-gpu-device -vnc :29 -serial stdio"
-	    #DISPLAY="-device virtio-gpu-device -vnc :29 -monitor stdio"
+            DISPLAY_OPT="-device virtio-gpu-device -display gtk,gl=on -serial stdio"
+	    #DISPLAY_OPT="-device virtio-gpu-device -vnc :29 -monitor stdio"
 	    ;;
         *)
             echo "run with default..."
@@ -22,7 +22,7 @@ done
 
 #gdb --args \
 ./qemu/build/qemu-system-aarch64 -machine baize \
-	${DISPLAY} \
+	${DISPLAY_OPT} \
 	-bios ./boot.rom \
 	-drive if=pflash,format=raw,index=0,file=./pflash.raw \
 	-drive if=none,file=emmc.img,id=hd2 \
