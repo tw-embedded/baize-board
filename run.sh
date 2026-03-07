@@ -11,7 +11,7 @@ for arg in "$@"; do
             DEBUG="-S -s"
             ;;
         -u|u|ui)
-            DISPLAY_OPT="-device virtio-gpu-device -display gtk,gl=on -serial stdio"
+            DISPLAY_OPT="-device virtio-gpu-gl-device,edid=off,xres=800,yres=600,blob=off -m 2G -display gtk,gl=on -serial stdio"
 	    #DISPLAY_OPT="-device virtio-gpu-device -vnc :29 -monitor stdio"
 	    ;;
         *)

@@ -155,10 +155,10 @@ b create_domUs
 
 # execute xen
 d breakpoints
-add-symbol-file /home/ubuntu/baize-board/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ShellPkg/Application/Shell/Shell/DEBUG/Shell.dll 0x128760000
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/ShellPkg/Application/Shell/Shell/DEBUG/Shell.dll 0x128760000
 b ProcessCommandLine
 b DoStartupScript
-add-symbol-file /home/ubuntu/baize-board/edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Core/Dxe/DxeMain/DEBUG/DxeCore.dll 0x12F288000
+add-symbol-file ./edk2/Build/Fake-AARCH64/DEBUG_GCC5/AARCH64/MdeModulePkg/Core/Dxe/DxeMain/DEBUG/DxeCore.dll 0x12F288000
 b CoreStartImage
 
 # threadxen
@@ -244,4 +244,10 @@ d breakpoints
 b tee_ioctl_shm_register
 b handle_rpc_func_cmd_shm_free
 b translate_noncontig
+
+# baremetal display debug
+d breakpoints
+#b virtio_mmio_probe
+b virtio_gpu_probe
+b drm_dev_register
 

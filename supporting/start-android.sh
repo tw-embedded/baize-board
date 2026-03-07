@@ -8,5 +8,5 @@ xl create and-p1/android.cfg
 xl info
 xl vcpu-list
 xl list
-#xl console android
+xl console android
 
