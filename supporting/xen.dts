@@ -55,6 +55,11 @@
 		};
 	};
 
+        virtio_mmio@20002e00 {
+                xen,passthrough; /* gpu in domu */
+                status = "okay";
+        };
+
         firmware {
                 optee {
                         compatible = "linaro,optee-tz";

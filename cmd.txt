@@ -251,3 +251,14 @@ d breakpoints
 b virtio_gpu_probe
 b drm_dev_register
 
+# android graphics
+# cd _cache
+# git clone --branch ASB-2026-03-02_15-6.6 --depth 1 https://android.googlesource.com/kernel/common
+set substitute-path /proc/self/cwd/common /home/alix/baize-board/_cache/common
+d breakpoints
+add-symbol-file _cache/kernel_aarch64/dist/vmlinux
+b virtio_gpu_init
+b virtio_find_vqs
+b vm_find_vqs
+b vm_setup_vq
+
