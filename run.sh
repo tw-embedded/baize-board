@@ -2,7 +2,7 @@
 
 DEBUG=""
 ANDROID_DRIVE="-drive if=none,file=android.rootfs,id=hd3 -device virtio-blk-device,drive=hd3"
-DISPLAY_OPT="-nographic -drive if=none,id=placeholder,file=null-co://,file.read-zeroes=on,format=raw -device virtio-blk-device,drive=placeholder"
+DISPLAY_OPT="-nographic -device virtio-rng-device"
 
 for arg in "$@"; do
     case $arg in
@@ -32,5 +32,5 @@ done
 	-device virtio-blk-device,drive=hd1 \
 	-drive if=none,file=dom0.rootfs,id=hd0 \
 	-device virtio-blk-device,drive=hd0 \
-	${DEBUG} \
+	${DEBUG}
 

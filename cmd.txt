@@ -251,7 +251,7 @@ d breakpoints
 b virtio_gpu_probe
 b drm_dev_register
 
-# android graphics
+# android.graphics
 # cd _cache
 # git clone --branch ASB-2026-03-02_15-6.6 --depth 1 https://android.googlesource.com/kernel/common
 set substitute-path /proc/self/cwd/common /home/alix/baize-board/_cache/common
@@ -261,4 +261,8 @@ b virtio_gpu_init
 b virtio_find_vqs
 b vm_find_vqs
 b vm_setup_vq
+
+# android.vendor
+d breakpoints
+b blkif_ring_get_request
 
