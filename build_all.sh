@@ -377,7 +377,7 @@ function update_rootfs_for_android() {
 	fi
 	sudo mount $loopdev"p2" p2
 	sudo rm -rf p2/*
-	sudo cp ../rootfs-hub/android/ramdisk-v*.cpio p2
+	sudo cp ../rootfs-hub/android/ramdisk-v3.cpio p2
 	sudo cp ../rootfs-hub/android/vendor.img p2
 	sudo cp ../rootfs-hub/android/gsi/*.img p2
 	ls p2
