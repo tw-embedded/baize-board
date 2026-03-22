@@ -12,3 +12,8 @@ cargo install cargo-expand
 cargo expand
 
 cargo new customize_macros --lib
+
+# if rust version has to be updated
+rustup update stable
+cargo clean
+
