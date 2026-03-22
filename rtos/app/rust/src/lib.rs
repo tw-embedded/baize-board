@@ -34,7 +34,16 @@ extern "C" fn thread_entry(_input: ULONG) {
         test_string();
 
         // stack water level check
-        println!("stack bottom {:x}", unsafe { STACK.as_ptr() as usize }); // use {:?} to format as_ptr is a bad idea
+        println!("stack bottom {:x}", core::ptr::addr_of_mut!(STACK) as usize); // use {:?} to format as_ptr is a bad idea
+        let stack_ptr = core::ptr::addr_of!(STACK) as *const u8;
+        for index in 0..STACK_SIZE {
+            let value = unsafe { *stack_ptr.add(index) };
+            if value != STACK_MAGIC {
+                pr_info!("stack water level %x. value %x", index, value as u32);
+                break;
+            }
+        }
+        /* old pattern for rust 1.81.0
         for (index, &value) in unsafe { STACK.iter().enumerate() } {
             if value != STACK_MAGIC {
                 //println!("stack water level {}", index);
@@ -42,11 +51,13 @@ extern "C" fn thread_entry(_input: ULONG) {
                 break;
             }
         }
+        */
     }
 }
 
 // 1024 is not enough for rust core format
-static mut STACK: [u8; 2048] = [0; 2048];
+const STACK_SIZE: usize = 2048;
+static mut STACK: [u8; STACK_SIZE] = [0; STACK_SIZE];
 
 static mut THREAD: TX_THREAD = unsafe { core::mem::zeroed() };
 
@@ -56,11 +67,11 @@ fn create_thread() {
     unsafe {
         status = _tx_thread_create(
             addr_of_mut!(THREAD) as *mut TX_THREAD, //&mut THREAD as *mut TX_THREAD,
-            b"rust_thread\0".as_ptr() as *mut i8,
+            b"rust_thread\0".as_ptr() as *mut _,
             Some(thread_entry),
             0,
-            STACK.as_mut_ptr() as *mut core::ffi::c_void,
-            STACK.len() as ULONG,
+            core::ptr::addr_of_mut!(STACK) as *mut core::ffi::c_void,
+            STACK_SIZE as ULONG,
             1, // priority
             1, // pre-priority
             0,
