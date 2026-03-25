@@ -222,15 +222,19 @@ function prepare_images() {
 	sgdisk -p $DOMU_FS
 
 	if [ ! -f $DOMU_AND_FS ]; then
-		dd if=/dev/zero of=$DOMU_AND_FS bs=1M count=10240
+		dd if=/dev/zero of=$DOMU_AND_FS bs=1G count=32
 		sgdisk -n 1:2048:264191 $DOMU_AND_FS
-		sgdisk -n 2:264192:20971486 $DOMU_AND_FS
+		sgdisk -n 2:264192:526335 $DOMU_AND_FS # metadata, 128M
+		sgdisk -n 3:526336:34080767 $DOMU_AND_FS # data, 16G
+		sgdisk -n 4:34080768:0 $DOMU_AND_FS
 		loopdev=$(sudo losetup -f)
 		echo $loopdev
 		sudo losetup $loopdev $DOMU_AND_FS
 		sudo partprobe $loopdev
 		sudo mkfs.fat $loopdev"p1"
 		sudo mkfs.ext4 $loopdev"p2"
+		sudo mkfs.ext4 $loopdev"p3"
+		sudo mkfs.ext4 $loopdev"p4"
 		sudo losetup -d $loopdev
 	fi
 	sgdisk -p $DOMU_AND_FS
@@ -375,7 +379,7 @@ function update_rootfs_for_android() {
 	if [ ! -d p2 ]; then
 		mkdir p2
 	fi
-	sudo mount $loopdev"p2" p2
+	sudo mount $loopdev"p4" p2
 	sudo rm -rf p2/*
 	sudo cp ../rootfs-hub/android/ramdisk-v3.cpio p2
 	sudo cp ../rootfs-hub/android/vendor.img p2
