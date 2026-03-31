@@ -386,7 +386,7 @@ function update_rootfs_for_android() {
 	if [ "$ANDROID_BUILD_TYPE" = "userdebug" ]; then
 		sudo cp ../rootfs-hub/android/duming/*.img p2
 	else
-		sudo cp ../rootfs-hub/android/google/vendor.img p2
+		sudo cp ../rootfs-hub/android/google/*.img p2
         	sudo cp ../rootfs-hub/android/google/gsi/*.img p2
 	fi
 	ls p2
