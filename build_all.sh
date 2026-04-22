@@ -383,12 +383,7 @@ function update_rootfs_for_android() {
 	sudo mount $loopdev"p4" p2
 	sudo rm -rf p2/*
 	sudo cp ../rootfs-hub/android/ramdisk-v3.cpio p2
-	if [ "$ANDROID_BUILD_TYPE" = "userdebug" ]; then
-		sudo cp ../rootfs-hub/android/duming/*.img p2
-	else
-		sudo cp ../rootfs-hub/android/google/*.img p2
-        	sudo cp ../rootfs-hub/android/google/gsi/*.img p2
-	fi
+	sudo cp ../rootfs-hub/android/userdebug/*.img p2
 	ls p2
 	sudo mkfs.ext4 -F $loopdev"p2" # clear metadata
 	sudo mkfs.ext4 -F $loopdev"p3" # clear data
