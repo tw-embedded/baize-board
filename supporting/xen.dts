@@ -56,7 +56,7 @@
 	};
 
         virtio_mmio@20002e00 {
-                xen,passthrough; /* gpu in domu */
+                xen,passthrough; /* gpu in domu or dom0 */
                 status = "okay";
         };
 
