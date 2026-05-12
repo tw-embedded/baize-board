@@ -25,7 +25,7 @@
 
 		module-0 {
 			/* compatible = "xen,linux-zimage","xen,multiboot-module"; */
-			/* reg = <0x30000000 0xfe0000>; */
+			/* reg = <0x0 0xc0000000 0x0 0x40000000>; uefi do not support */
 			compatible = "multiboot,kernel", "multiboot,module";
 			xen,uefi-binary = "Image";
 			bootargs = "root=/dev/vda2 rw rootfstype=ext4 rootwait earlycon console=ttyAMA0 init=/init ignore_loglevel";
