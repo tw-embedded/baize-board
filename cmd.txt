@@ -270,3 +270,8 @@ b blkif_ring_get_request
 d breakpoints
 b *0x347c
 
+# android drm ioctl
+d breakpoints
+b start_kernel
+b drm_ioctl
+
