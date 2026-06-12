@@ -349,7 +349,7 @@ function build_domu_rtos() {
 function build_domu_android() {
 	pushd .
 	cd android
-	./build.sh
+	./build.sh b
 	popd
 }
 
