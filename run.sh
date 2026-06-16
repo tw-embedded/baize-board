@@ -10,6 +10,9 @@ for arg in "$@"; do
             echo "debug mode..."
             DEBUG="-S -s"
             ;;
+	-v|v) # for EC2 & android
+	    DISPLAY_OPT="-device virtio-gpu-device -display none -vnc :1 -serial stdio"
+	    ;;
         -u|u|ui)
             DISPLAY_OPT="-device virtio-gpu-gl-device,edid=off,xres=800,yres=600,blob=off -device virtio-gpu-device,edid=on,xres=640,yres=480,blob=off -m 2G -display gtk,gl=on -serial stdio"
             #DISPLAY_OPT="-device virtio-gpu-device -vnc :29 -monitor stdio"
