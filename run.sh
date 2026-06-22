@@ -1,7 +1,9 @@
 #!/bin/bash
 
 DEBUG=""
-ANDROID_DRIVE="-drive if=none,file=android.rootfs,id=hd3 -device virtio-blk-device,drive=hd3"
+
+# unsafe for performance optimization
+ANDROID_DRIVE="-drive if=none,file=android.rootfs,id=hd3,cache=unsafe -device virtio-blk-device,drive=hd3"
 DISPLAY_OPT="-nographic -device virtio-rng-device"
 
 for arg in "$@"; do
@@ -14,8 +16,8 @@ for arg in "$@"; do
 	    DISPLAY_OPT="-device virtio-gpu-device -display none -vnc :1 -serial stdio"
 	    ;;
         -u|u|ui)
-            DISPLAY_OPT="-device virtio-gpu-gl-device,edid=off,xres=800,yres=600,blob=off -device virtio-gpu-device,edid=on,xres=640,yres=480,blob=off -m 2G -display gtk,gl=on -serial stdio"
-            #DISPLAY_OPT="-device virtio-gpu-device -vnc :29 -monitor stdio"
+            DISPLAY_OPT="-device virtio-gpu-device,edid=off,xres=800,yres=600,blob=off -device virtio-gpu-device,edid=on,xres=640,yres=480,blob=off -m 2G -display gtk,gl=on -serial stdio"
+            #DISPLAY_OPT="-device virtio-gpu-gl-device -vnc :29 -monitor stdio"
             ;;
         *)
             echo "run with default..."

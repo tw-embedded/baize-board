@@ -15,6 +15,7 @@ sudo losetup $loopdev $IMG
 sudo partprobe $loopdev
 ls /dev/loop*
 
+mkdir -p p1
 sudo mount $loopdev"p3" p1
 ls p1
 
@@ -31,4 +32,6 @@ sudo cp -r p1/misc/logd ../_cache/log/
 # end
 sudo umount p1
 sudo losetup -d $loopdev
+
+sudo chown -R alix:alix ../_cache/log
 
