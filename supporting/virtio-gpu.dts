@@ -13,12 +13,12 @@
 			string = "pass";
 		};
 
-		virtio_mmio@20002e00 {
-			/* dma-coherent; */
-			interrupts = <0x0 0x19 0x1>;
-			reg = <0x0 0x20002e00 0x0 0x200>;
-			compatible = "virtio,mmio";
-			status = "okay";
-		};
+			virtio_mmio@20002c00 {
+				/* dma-coherent; */
+				interrupts = <0x0 0x18 0x1>;
+				reg = <0x0 0x20002c00 0x0 0x200>;
+				compatible = "virtio,mmio";
+				status = "okay";
+			};
 	};
 };
