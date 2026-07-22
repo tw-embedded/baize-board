@@ -1,37 +1,40 @@
-#!/bin/sh
-
-#set -e
+#!/bin/bash
 
 IMG=../android.rootfs
+OUTDIR=../_cache/log
 
-fdisk -l $IMG
+loopdev=$(sudo losetup --find --show --partscan $IMG)
+echo "Loop device: $loopdev"
+sleep 1
 
-parted $IMG print
+PART="${loopdev}p3"
 
-loopdev=$(sudo losetup -f)
-echo $loopdev
+echo "=== Dumping logcat files ==="
+mkdir -p "$OUTDIR/logd" "$OUTDIR/anr" "$OUTDIR/dropbox"
+rm -rf "$OUTDIR"/*/*
 
-sudo losetup $loopdev $IMG
-sudo partprobe $loopdev
-ls /dev/loop*
+sudo debugfs -R "dump misc/logd/logcat.txt $OUTDIR/logd/logcat.txt" "$PART" 2>/dev/null
+sudo debugfs -R "dump misc/logd/logcat.txt.1 $OUTDIR/logd/logcat.txt.1" "$PART" 2>/dev/null
+sudo debugfs -R "dump misc/logd/logcat.txt.2 $OUTDIR/logd/logcat.txt.2" "$PART" 2>/dev/null
+sudo debugfs -R "dump misc/logd/event-log-tags $OUTDIR/logd/event-log-tags" "$PART" 2>/dev/null
 
-mkdir -p p1
-sudo mount $loopdev"p3" p1
-ls p1
+echo "=== Dumping anr files ==="
+for f in $(sudo debugfs -R "ls -p anr" "$PART" 2>/dev/null | cut -d/ -f6 | grep -v "^$" | grep -v "^\\.$" | grep -v "^\\.\\.$"); do
+  sudo debugfs -R "dump anr/$f $OUTDIR/anr/$f" "$PART" 2>/dev/null
+done
 
-echo "try to find logcat & tombstone"
-sudo find p1 -name "*logcat*"
-sudo find p1 -name "*tombstone*"
+echo "=== Dumping dropbox files ==="
+for f in $(sudo debugfs -R "ls -p system/dropbox" "$PART" 2>/dev/null | cut -d/ -f6 | grep -v "^$" | grep -v "^\\.$" | grep -v "^\\.\\.$"); do
+  sudo debugfs -R "dump system/dropbox/$f $OUTDIR/dropbox/$f" "$PART" 2>/dev/null
+done
 
-sudo rm -rf ../_cache/log/*
-sudo cp -r p1/tombstones ../_cache/log/
-sudo cp -r p1/system/dropbox ../_cache/log/
-sudo cp -r p1/anr ../_cache/log/
-sudo cp -r p1/misc/logd ../_cache/log/
+sudo losetup -d "$loopdev"
+sudo chown -R izaac:izaac "$OUTDIR"
 
-# end
-sudo umount p1
-sudo losetup -d $loopdev
-
-sudo chown -R alix:alix ../_cache/log
-
+echo ""
+echo "=== Done ==="
+echo "logd:"
+ls -lh "$OUTDIR/logd/"
+echo "anr:"
+ls -lh "$OUTDIR/anr/"
+echo "dropbox: $(ls "$OUTDIR/dropbox/" | wc -l) files"

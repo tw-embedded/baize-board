@@ -46,8 +46,11 @@ for arg in "$@"; do
 	    ;;
         -u|u|ui)
             ensure_compositor
-            DISPLAY_OPT="-device virtio-gpu-device,edid=off,xres=640,yres=400,blob=off -device virtio-gpu-device,edid=on,xres=640,yres=480,blob=off -m 2G -display gtk,gl=on -serial stdio"
-            QEMU_ENV="QEMU_GTK_DETACH_GFX=second QEMU_GTK_GFX_SIZES=640x400,640x480"
+            DISPLAY_OPT="-device virtio-gpu-device,edid=off,xres=640,yres=480,blob=off -device virtio-gpu-device,edid=on,xres=800,yres=600,blob=off -m 2G -display gtk,gl=es -serial stdio"
+            QEMU_ENV="QEMU_GTK_DETACH_GFX=second QEMU_GTK_GFX_SIZES=640x480,800x600"
+            if grep -qi microsoft /proc/version 2>/dev/null; then
+                QEMU_ENV="GDK_BACKEND=wayland GALLIUM_DRIVER=d3d12 MESA_LOADER_DRIVER_OVERRIDE=d3d12 ${QEMU_ENV}"
+            fi
             #DISPLAY_OPT="-device virtio-gpu-gl-device -vnc :29 -monitor stdio"
             ;;
         *)
