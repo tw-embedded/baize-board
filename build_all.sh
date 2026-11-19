@@ -173,6 +173,16 @@ function update_rootfs_for_dom0() {
 		sudo cp ../app/trusted/optee_examples/out/ta/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta p2/lib/optee_armtz/
 		sudo cp ../app/trusted/optee_examples/out/ca/optee_example_hello_world p2/home/root/
 	fi
+
+	sudo cp aa.sh p2/home/root/
+	sudo mkdir -p p2/etc/apparmor.d
+	sudo cp home.root.aa.sh p2/etc/apparmor.d/
+	sudo apparmor_parser -Q -W -o home.root.aa.bin p2/etc/apparmor.d/home.root.aa.sh
+	sudo mkdir -p p2/etc/apparmor/cache
+	sudo cp home.root.aa.bin p2/etc/apparmor/cache/home.root.aa.bin
+	# sudo cp load-apparmor-cache.sh p2/home/root/
+
+	ls p2
 	sudo umount p2
 
 	sudo losetup -d $loopdev
