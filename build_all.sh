@@ -134,19 +134,7 @@ function update_rootfs_for_dom0() {
 	sudo losetup $loopdev ../$DOM0_FS
 	sudo partprobe $loopdev
 	ls /dev/loop*
-	# partition 1
-	if [ ! -d p1 ]; then
-		mkdir p1
-	fi
-	sudo mount $loopdev"p1" p1
-	sudo cp *.dtb p1
-	sudo cp ../xen-4.17/dist/install/boot/xen p1
-	sudo cp xen.cfg p1
-	sudo cp startup-xen.nsh p1/startup.nsh
-	sudo cp ../linux-4.14/build/arch/arm64/boot/Image p1
-	sudo cp ../rtos/threadx/build/ports/cortex_a53/gnu/threadxen p1
-	ls p1
-	sudo umount p1
+	
 	# partition 2
 	rm -f rootfs.cpio
 	gunzip -c ../rootfs-hub/fake-dom0-fake-arm64.cpio.gz > rootfs.cpio
@@ -181,9 +169,43 @@ function update_rootfs_for_dom0() {
 	sudo mkdir -p p2/etc/apparmor/cache
 	sudo cp home.root.aa.bin p2/etc/apparmor/cache/home.root.aa.bin
 	# sudo cp load-apparmor-cache.sh p2/home/root/
+	sudo sudo sed -i 's|^\(/dev/root[[:space:]]\+/[[:space:]]\+[^[:space:]]\+[[:space:]]\+\)defaults\b|\1ro|' p2/etc/fstab
 
 	ls p2
 	sudo umount p2
+
+	# partition 1
+        if [ ! -d p1 ]; then
+                mkdir p1
+        fi
+        sudo mount $loopdev"p1" p1
+
+	VERITYLOG=$(sudo veritysetup format --hash=sha256 --data-block-size=4096 --hash-block-size=4096 "${loopdev}p2" rootfs.verity.hash)
+	printf '%s\n' "$VERITYLOG"
+	ROOT_HASH=$(printf '%s\n' "$VERITYLOG" | awk -F': ' '/^Root hash:/ {gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2); print $2}')
+	[ -n "$ROOT_HASH" ] || { echo "Error: failed to extract Root hash"; exit 1; }
+	VERITYFILE="xen-dm.dts"
+	cp xen.dts $VERITYFILE
+	sed -i -E "/module-0[[:space:]]*\{/,/bootargs[[:space:]]*=/ {
+  /bootargs[[:space:]]*=/ {
+    s/(verity_root_hash=)[^[:space:]\"]*/\1${ROOT_HASH}/g;
+    t;
+    s/\"([^\"]*)\"[[:space:]]*;/\"\\1 verity_root_hash=${ROOT_HASH}\";/
+  }
+}" "$VERITYFILE"
+	dtc -I dts -O dtb -o xen.dtb $VERITYFILE
+	rm $VERITYFILE
+	sudo cp *.dtb p1
+        sudo cp ../xen-4.17/dist/install/boot/xen p1
+        sudo cp xen.cfg p1
+        sudo cp startup-xen.nsh p1/startup.nsh
+        sudo cp ../linux-4.14/build/arch/arm64/boot/Image p1
+        sudo cp ../rtos/threadx/build/ports/cortex_a53/gnu/threadxen p1
+	#sudo veritysetup format --hash=sha256 --data-block-size=4096 --hash-block-size=4096 $loopdev"p2" rootfs.verity.hash
+        sudo cp rootfs.verity.hash p1/
+
+	ls p1
+        sudo umount p1
 
 	sudo losetup -d $loopdev
 	popd
@@ -259,6 +281,7 @@ function build_kernel() {
 		cd -
 	fi
 	cd linux-4.14
+	cp ../rootfs-hub/initramfs.cpio.gz build/
 	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build -j 2
 	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=build modules_install INSTALL_MOD_PATH=.
 	cd -

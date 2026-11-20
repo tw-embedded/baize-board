@@ -7,6 +7,7 @@ if [ $# -ne 1 ] ; then
 	exit
 fi
 
+sudo umount ../supporting/p1 ../supporting/p2
 sudo umount p1 p2
 
 loopdev="/dev/loop"$1
